@@ -6,8 +6,8 @@ var config = {
         mode: Phaser.Scale.FIT,
         parent: "superficie_juego",
         autoCenter: Phaser.Scale.CENTER_BOTH,
-        width: 1200,
-        height: 640
+        width: 320,
+        height: 180
     },
     backgroundColor: '#87CEEB',
     scene: EscenaBase,
@@ -17,7 +17,8 @@ var config = {
             gravity: { y: 500 },
             debug: false
         }
-    }
+    },
+    pixelArt: true,
 }
 
 var game = new Phaser.Game(config);
