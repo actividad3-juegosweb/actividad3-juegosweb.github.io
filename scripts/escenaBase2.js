@@ -38,7 +38,9 @@ export default class EscenaBase2 extends Phaser.Scene {
         this.crearAnimacionesEnemigos();
 
         // Crear el grupo dinámico de enemigos configurando la actualización automática de hijos
-        this.enemies = this.physics.add.group({ runChildUpdate: true });
+        this.enemies = this.add.group();
+        this.physics.add.collider(this.enemies, this.plataformas);
+        this.physics.add.overlap(this.player, this.enemies);
         
         this.physics.add.collider(this.enemies, this.plataformas);
         
