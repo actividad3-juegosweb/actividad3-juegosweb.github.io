@@ -456,21 +456,12 @@
  "nextobjectid":1,
  "orientation":"orthogonal",
  "renderorder":"left-down",
- "tiledversion":"1.12.1",
+ "tiledversion":"1.11.2",
  "tileheight":16,
  "tilesets":[
         {
-         "columns":25,
          "firstgid":1,
-         "image":"Sprites\/tileset.png",
-         "imageheight":368,
-         "imagewidth":400,
-         "margin":0,
-         "name":"tileset",
-         "spacing":0,
-         "tilecount":575,
-         "tileheight":16,
-         "tilewidth":16
+         "source":"..\/..\/..\/CarlosD\u00edezNavarro_Act2\/resources\/tileset.json"
         }, 
         {
          "columns":24,
