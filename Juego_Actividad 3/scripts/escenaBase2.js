@@ -9,6 +9,7 @@ export default class EscenaBase extends Phaser.Scene {
         
         // CARGAR MAPA Y TILESET //
         this.load.image('tilesheet','assets/tileset.png');
+        this.load.image('tilesheet1','assets/back.png');
         this.load.tilemapTiledJSON('map','assets/map.json');
 
         // CARGAR ANIMACIONES PLAYER //
@@ -46,7 +47,9 @@ export default class EscenaBase extends Phaser.Scene {
 
         // CREAR MAPA Y TILES //
         this.mapa = this.make.tilemap({key:'map'});
-        this.hojaTiles = this.mapa.addTilesetImage('tileset','tilesheet',16,16,0,0);
+        this.tileset = this.mapa.addTilesetImage('tileset', 'tilesheet', 16, 16, 0, 0);
+        this.backTileset = this.mapa.addTilesetImage('back', 'tilesheet1', 16, 16, 0, 0);
+
     
         //CREAR MUSICA //
         this.musica = this.sound.add('musica-fondo', {
@@ -56,12 +59,12 @@ export default class EscenaBase extends Phaser.Scene {
         this.musica.play();
 
         // CREAR CAPAS //
-        this.backgroundFixed = this.mapa.createLayer('background_fixed', this.hojaTiles, 0, 0);
-        this.background = this.mapa.createLayer('background', this.hojaTiles, 0, 0);
-        this.solid = this.mapa.createLayer('solid', this.hojaTiles, 0, 0);
-        this.platforms = this.mapa.createLayer('platforms', this.hojaTiles, 0, 0);
-        this.foreground = this.mapa.createLayer('foreground', this.hojaTiles, 0, 0);
-        this.unlockables= this.mapa.createLayer('unlockables', this.hojaTiles, 0, 0);
+        this.backgroundFixed = this.mapa.createLayer('background_fixed', this.backTileset, 0, 0);
+        this.background = this.mapa.createLayer('background', this.tileset, 0, 0);
+        this.solid = this.mapa.createLayer('solid', this.tileset, 0, 0);
+        this.platforms = this.mapa.createLayer('platforms', this.tileset, 0, 0);
+        this.foreground = this.mapa.createLayer('foreground', this.tileset, 0, 0);
+        this.unlockables = this.mapa.createLayer('unlockables', this.tileset, 0, 0);
         // COLISIONES TILEMAP //
         this.solid.setCollisionByExclusion(-1, true);
 
@@ -69,7 +72,7 @@ export default class EscenaBase extends Phaser.Scene {
         this.platforms.setCollisionByExclusion(-1, true);
 
         // CREAR PLAYER //
-        this.player = new Player(this,50, 0);
+        this.player = new Player(this,900, 390);
 
         // COLISION PLAYER CON SUELO //
         this.physics.add.collider(this.player, this.solid);
@@ -280,7 +283,7 @@ export default class EscenaBase extends Phaser.Scene {
                 player.setVelocityY(-300);
             }
         } else {
-            
+
             // DAÑO AL JUGADOR //
             player.recibirDano(1, enemy.x);
             
