@@ -23,7 +23,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         // ----- Parámetros -----
         this.velocidad        = 120;
         this.velocidadSalto   = 280;
-        this.velocidadRoll    = 280;
+        this.velocidadRoll    = 200;
         this.vidaMax          = 3;
         this.vida             = this.vidaMax;
         this.duracionAtaque   = 280; // ms que dura el roll

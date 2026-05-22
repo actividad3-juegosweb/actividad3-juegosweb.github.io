@@ -41,6 +41,8 @@ export default class EscenaBase extends Phaser.Scene {
 
         // VARIABLE RANA PARA SABER CUANDO Y DONDE SALTAR //
         this.frogJumpSide = 'left';
+        
+
 
         // CREAR MAPA Y TILES //
         this.mapa = this.make.tilemap({key:'map'});
@@ -59,7 +61,7 @@ export default class EscenaBase extends Phaser.Scene {
         this.solid = this.mapa.createLayer('solid', this.hojaTiles, 0, 0);
         this.platforms = this.mapa.createLayer('platforms', this.hojaTiles, 0, 0);
         this.foreground = this.mapa.createLayer('foreground', this.hojaTiles, 0, 0);
-
+        this.unlockables= this.mapa.createLayer('unlockables', this.hojaTiles, 0, 0);
         // COLISIONES TILEMAP //
         this.solid.setCollisionByExclusion(-1, true);
 
@@ -149,23 +151,13 @@ export default class EscenaBase extends Phaser.Scene {
         this.enemies.add(new Opossum(this, 500, 890));
         // CONFIGURAR CAMARA //
         this.cameras.main.startFollow(this.player);
-
-        this.cameras.main.setZoom(2.5);
-
-        this.cameras.main.setBounds(
-            0,
-            0,
-            this.mapa.widthInPixels,
-            this.mapa.heightInPixels
-        );
+        this.cameras.main.setZoom(4);this.cameras.main.setBounds(0,0,
+        this.mapa.widthInPixels,this.mapa.heightInPixels);
 
         // EVENTO MUERTE JUGADOR //
         this.events.on('jugador-muerto', () => {
 
-            this.add.text(
-                this.cameras.main.centerX,
-                this.cameras.main.centerY,
-                'GAME OVER',
+            this.add.text(this.cameras.main.centerX,this.cameras.main.centerY,'GAME OVER',
                 {
                     fontSize: '80px',
                     fontStyle: 'bold',
@@ -280,7 +272,6 @@ export default class EscenaBase extends Phaser.Scene {
                 volume: 0.2
             });
 
-
             // DESTRUIR ENEMIGO //
             enemy.destroy();
             
@@ -288,9 +279,8 @@ export default class EscenaBase extends Phaser.Scene {
             if (atacandoDesdeArriba) {
                 player.setVelocityY(-300);
             }
-
         } else {
-
+            
             // DAÑO AL JUGADOR //
             player.recibirDano(1, enemy.x);
             
