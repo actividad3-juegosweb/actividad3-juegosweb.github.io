@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<title>Memoria del proyecto — [NOMBRE DEL JUEGO]</title>
+<style>
+    @page { size: A4; margin: 2cm; }
+    body {
+        font-family: Georgia, "Times New Roman", serif;
+        max-width: 820px;
+        margin: 2rem auto;
+        padding: 0 1.5rem;
+        color: #1a1a1a;
+        line-height: 1.55;
+    }
+    h1 { font-size: 2rem; border-bottom: 3px solid #2c5aa0; padding-bottom: .4rem; }
+    h2 { font-size: 1.4rem; color: #2c5aa0; margin-top: 2.2rem; border-bottom: 1px solid #ddd; padding-bottom: .2rem; }
+    h3 { font-size: 1.1rem; color: #444; margin-top: 1.4rem; }
+    table { border-collapse: collapse; width: 100%; margin: .8rem 0; font-size: .95rem; }
+    th, td { border: 1px solid #bbb; padding: .45rem .6rem; text-align: left; vertical-align: top; }
+    th { background: #eef3fb; }
+    code, pre { font-family: "Consolas", "Menlo", monospace; }
+    code { background: #f3f3f3; padding: 1px 4px; border-radius: 3px; font-size: .9em; }
+    pre { background: #f6f8fa; border: 1px solid #ddd; padding: .8rem 1rem; border-radius: 4px; overflow-x: auto; font-size: .85rem; }
+    blockquote { border-left: 4px solid #2c5aa0; background: #f7f9fc; margin: 1rem 0; padding: .6rem 1rem; color: #444; }
+    .meta { background: #f7f9fc; border: 1px solid #d6e0f0; padding: 1rem 1.2rem; border-radius: 4px; margin-bottom: 2rem; }
+    .meta p { margin: .25rem 0; }
+    @media print { body { margin: 0; } h2 { page-break-after: avoid; } pre, table { page-break-inside: avoid; } }
+</style>
+</head>
+<body>
+
+<h1>Memoria del proyecto — [NOMBRE DEL JUEGO]</h1>
+
+<div class="meta">
+    <p><strong>Asignatura:</strong> [NOMBRE ASIGNATURA]</p>
+    <p><strong>Curso / Grupo:</strong> [CURSO]</p>
+    <p><strong>Integrantes:</strong> [NOMBRE 1], [NOMBRE 2], [NOMBRE 3], [NOMBRE 4]</p>
+    <p><strong>Fecha de entrega:</strong> [DD/MM/AAAA]</p>
+    <p><strong>URL del juego publicado:</strong> [PENDIENTE — GitHub Pages]</p>
+    <p><strong>Repositorio:</strong> [URL del repositorio]</p>
+    <p><strong>Vídeo de gameplay:</strong> [opcional]</p>
+</div>
+
+<h2>1. Introducción</h2>
+<p>
+    <strong>[NOMBRE DEL JUEGO]</strong> es un videojuego de plataformas 2D desarrollado con la librería
+    <strong>Phaser 3</strong> (v3.90.0) como parte de la actividad grupal de la asignatura
+    [NOMBRE ASIGNATURA]. El jugador controla a <em>Foxy</em>, un pequeño zorro que debe
+    recorrer un nivel basado en <em>tilemap</em>, recoger gemas de distintos colores para
+    desbloquear los muros del mismo color, evitar enemigos y llegar a la bandera final
+    para superar la fase.
+</p>
+<p>
+    El proyecto se ha construido íntegramente con tecnologías web (HTML5, JavaScript
+    modular ES6 y CSS), lo que permite su ejecución directa en cualquier navegador
+    moderno sin necesidad de instalación.
+</p>
+
+<h3>Objetivos del juego</h3>
+<ul>
+    <li>Recoger todas las gemas de cada color para hacer desaparecer el muro correspondiente.</li>
+    <li>Esquivar o derrotar a los enemigos mediante el ataque de embestida (<em>roll</em>).</li>
+    <li>Conservar al menos un punto de vida hasta alcanzar la bandera final.</li>
+</ul>
+
+<h2>2. Cómo jugar</h2>
+
+<table>
+    <thead><tr><th>Acción</th><th>Tecla(s)</th></tr></thead>
+    <tbody>
+        <tr><td>Moverse</td><td><code>A</code> / <code>D</code> o <code>←</code> / <code>→</code></td></tr>
+        <tr><td>Saltar</td><td><code>W</code>, <code>Espacio</code> o <code>↑</code></td></tr>
+        <tr><td>Atacar (roll)</td><td><code>S</code></td></tr>
+        <tr><td>(Debug) Simular daño</td><td><code>H</code></td></tr>
+    </tbody>
+</table>
+
+<p><strong>Mecánicas principales:</strong></p>
+<ol>
+    <li><strong>Movimiento horizontal</strong> con velocidad constante (<code>velocidad = 180</code>).</li>
+    <li><strong>Salto</strong> únicamente cuando el personaje está apoyado en el suelo (<code>onFloor()</code>), con velocidad inicial <code>-380</code>.</li>
+    <li><strong>Ataque tipo <em>roll</em></strong>: Foxy se impulsa hacia delante a <code>280 px/s</code> durante <code>400 ms</code> y activa una <em>hitbox</em> invisible que daña a los enemigos. Cooldown de <code>500 ms</code> entre ataques.</li>
+    <li><strong>Sistema de vida</strong>: comienza con 3 puntos. Al recibir daño se aplica parpadeo, invulnerabilidad temporal de 1 s y <em>knockback</em> hacia el lado opuesto a la fuente. Al llegar a 0 se muestra <em>GAME OVER</em>.</li>
+    <li><strong>Recogida de gemas y desbloqueo de muros</strong>: al completar todas las gemas de un color, el muro de ese color desaparece y en el HUD se muestra la llave correspondiente.</li>
+    <li><strong>Final del nivel</strong>: al tocar la bandera aparece el mensaje <em>YOU WIN</em>.</li>
+</ol>
+
+<h2>3. Elementos que componen el juego</h2>
+
+<h3>3.1 Estructura de directorios</h3>
+<pre>actividad3-juegosweb.github.io/
+├── index.html              # entrada principal del juego
+├── index2.html             # escena de pruebas del Personaje
+├── assets/
+│   ├── mapa.json           # tilemap exportado desde Tiled
+│   ├── tiles.png           # tileset principal
+│   ├── prota.png           # sprite antiguo (no usado)
+│   ├── spr_player.png      # atlas antiguo (no usado)
+│   ├── spr_player_atlas.json
+│   ├── gem_*.png           # gemas (azul, verde, roja, amarilla)
+│   ├── key_*.png           # llaves
+│   ├── flag.png            # bandera de meta
+│   ├── coin_gold.png       # icono de marcador
+│   └── sunny/              # paquete gráfico Sunnyland
+│       ├── Characters/Foxy/Sprites/   # frames del protagonista
+│       └── environment/, Misc/         # tilesets y FX adicionales
+└── scripts/
+    ├── main.js             # configuración Phaser y arranque
+    ├── main2.js            # arranque de la escena de prueba
+    ├── escenaBase.js       # escena principal del juego
+    ├── escenaBase2.js      # escena aislada para probar el Personaje
+    ├── player.js           # clase Player (versión Foxy)
+    ├── jugador.js          # clase Jugador (versión antigua)
+    ├── gema.js             # clase Gema
+    └── bandera.js          # clase Bandera</pre>
+
+<h3>3.2 Inventario de clases</h3>
+<table>
+    <thead><tr><th>Clase</th><th>Fichero</th><th>Hereda de</th><th>Descripción</th></tr></thead>
+    <tbody>
+        <tr><td><code>EscenaBase</code></td><td><code>escenaBase.js</code></td><td><code>Phaser.Scene</code></td><td>Escena principal: carga assets, monta el tilemap, instancia jugador/gemas/bandera, gestiona colisiones y HUD.</td></tr>
+        <tr><td><code>EscenaBase2</code></td><td><code>escenaBase2.js</code></td><td><code>Phaser.Scene</code></td><td>Escena reducida usada como banco de pruebas del Personaje.</td></tr>
+        <tr><td><code>Player</code></td><td><code>player.js</code></td><td><code>Phaser.Physics.Arcade.Sprite</code></td><td>Personaje principal (Foxy). Movimiento, salto, ataque, daño, invulnerabilidad y muerte.</td></tr>
+        <tr><td><code>Jugador</code></td><td><code>jugador.js</code></td><td><code>Phaser.Physics.Arcade.Sprite</code></td><td>Versión inicial del protagonista (conservada por compatibilidad).</td></tr>
+        <tr><td><code>Gema</code></td><td><code>gema.js</code></td><td><code>Phaser.Physics.Arcade.Sprite</code></td><td>Coleccionable. Atributos <code>tipo</code>, <code>valor</code>, <code>total</code>.</td></tr>
+        <tr><td><code>Bandera</code></td><td><code>bandera.js</code></td><td><code>Phaser.Physics.Arcade.Sprite</code></td><td>Marca el final del nivel.</td></tr>
+    </tbody>
+</table>
+
+<h3>3.3 Inventario de assets</h3>
+<table>
+    <thead><tr><th>Asset</th><th>Origen / autoría</th><th>Uso</th></tr></thead>
+    <tbody>
+        <tr><td><code>assets/sunny/Characters/Foxy/</code></td><td>Sunnyland (Ansimuz, CC0)</td><td>Sprites del protagonista (idle, run, jump, hurt, Roll).</td></tr>
+        <tr><td><code>assets/sunny/environment/</code></td><td>Sunnyland</td><td>Tilesets y props decorativos.</td></tr>
+        <tr><td><code>assets/sunny/Misc/</code></td><td>Sunnyland</td><td>Efectos visuales e ítems extra.</td></tr>
+        <tr><td><code>assets/tiles.png</code>, <code>assets/mapa.json</code></td><td>Material de la asignatura / Tiled</td><td>Mapa principal del nivel.</td></tr>
+        <tr><td><code>gem_*.png</code>, <code>key_*.png</code>, <code>flag.png</code>, <code>coin_gold.png</code></td><td>Material de la asignatura</td><td>Coleccionables, llaves, meta y HUD.</td></tr>
+        <tr><td><code>phaser.min.js</code> (CDN)</td><td>Phaser Studio (MIT)</td><td>Motor del juego.</td></tr>
+    </tbody>
+</table>
+
+<blockquote>
+    <strong>Nota sobre licencias:</strong> todos los recursos gráficos externos pertenecen al
+    pack <em>Sunnyland</em> de Ansimuz (distribución libre); Phaser se distribuye bajo licencia MIT.
+    No se han incorporado recursos protegidos por derechos de autor.
+</blockquote>
+
+<h2>4. Descripción del código relevante</h2>
+
+<h3>4.1 Arranque y configuración (<code>main.js</code>)</h3>
+<p>
+    Configura una instancia de <code>Phaser.Game</code> con <code>Phaser.AUTO</code>, escalado
+    <code>FIT</code> y un canvas lógico de <code>1200×640</code>. Activa la física <em>Arcade</em>
+    con gravedad vertical <code>500</code>. La escena registrada es <code>EscenaBase</code>.
+</p>
+<pre>const config = {
+    type: Phaser.AUTO,
+    scale: { mode: Phaser.Scale.FIT, width: 1200, height: 640, ... },
+    backgroundColor: '#87CEEB',
+    scene: EscenaBase,
+    physics: { default: 'arcade', arcade: { gravity: { y: 500 } } }
+};
+new Phaser.Game(config);</pre>
+
+<h3>4.2 Escena principal (<code>escenaBase.js</code>)</h3>
+<ul>
+    <li><strong><code>preload()</code></strong>: carga las gemas, llaves, bandera, moneda, el atlas del protagonista, el tileset y <code>mapa.json</code>.</li>
+    <li><strong><code>create()</code></strong>:
+        <ol>
+            <li>Crea el tilemap y monta las capas <code>plataformas</code>, <code>muroAzul</code>, <code>muroRojo</code>, <code>muroVerde</code>, <code>muroAmarillo</code>.</li>
+            <li>Instancia el <code>Jugador</code> y añade <em>colliders</em> contra cada capa de muro y contra las plataformas.</li>
+            <li>Recorre las <em>object layers</em> y crea una <code>Gema</code> por cada objeto, con su <em>collider</em> contra el jugador.</li>
+            <li>Instancia la <code>Bandera</code> y su <em>collider</em>.</li>
+            <li>Construye el HUD con marcadores de cada gema, llaves y monedas totales.</li>
+        </ol>
+    </li>
+    <li><strong><code>colGemaJugador()</code></strong>: suma puntos según el tipo de gema, actualiza el HUD y, cuando se completan todas las de un color, destruye el collider y la capa de muro correspondiente, sustituyendo en el HUD la gema por la llave.</li>
+    <li><strong><code>colBanderaJugador()</code></strong>: destruye la bandera y muestra <em>YOU WIN</em>.</li>
+</ul>
+
+<h3>4.3 Clase <code>Player</code> (<code>player.js</code>)</h3>
+<p>Es la pieza con más responsabilidad. Decisiones de diseño:</p>
+<ul>
+    <li><strong>Controles agrupados</strong> en un objeto <code>teclas</code> (<code>A</code>, <code>D</code>, <code>S</code>, <code>W</code>, <code>Space</code>) junto a <code>cursors</code> de flechas.</li>
+    <li><strong>Parámetros configurables</strong> declarados como propiedades (<code>velocidad</code>, <code>velocidadSalto</code>, <code>velocidadRoll</code>, <code>vidaMax</code>, <code>duracionAtaque</code>, <code>cooldownAtaque</code>, <code>tiempoInvulnerable</code>) para facilitar el <em>balance</em>.</li>
+    <li><strong>Animaciones</strong> creadas dinámicamente en <code>crearAnimaciones()</code> con un <em>helper</em> <code>framesDe(prefijo, n)</code>; los sprites de Foxy se distribuyen como PNG individuales.</li>
+    <li><strong>Ataque mediante <code>Phaser.GameObjects.Zone</code></strong>: zona invisible (<code>hitboxAtaque</code>) con cuerpo de física, desactivada por defecto. Al atacar se habilita durante <code>duracionAtaque</code> ms y se reposiciona delante del jugador según <code>flipX</code>.</li>
+    <li><strong>Sistema de daño con invulnerabilidad temporal</strong>: <code>recibirDano()</code> ignora golpes si ya es invulnerable, aplica <em>knockback</em>, lanza un <code>tween</code> de parpadeo y emite <code>jugador-dano</code>.</li>
+    <li><strong>Comunicación por eventos</strong> (<code>jugador-ataca</code>, <code>jugador-dano</code>, <code>jugador-muerto</code>) para desacoplar <code>Player</code> de la escena.</li>
+</ul>
+
+<pre>atacar() {
+    this.atacando = true;
+    this.puedeAtacar = false;
+
+    const dir = this.flipX ? -1 : 1;
+    this.setVelocityX(dir * this.velocidadRoll);
+
+    this.hitboxAtaque.body.enable = true;
+    this.play('player_roll', true);
+    this.escena.events.emit('jugador-ataca', this.hitboxAtaque);
+
+    this.escena.time.delayedCall(this.duracionAtaque, () =&gt; {
+        this.hitboxAtaque.body.enable = false;
+        this.atacando = false;
+    });
+    this.escena.time.delayedCall(this.cooldownAtaque, () =&gt; {
+        this.puedeAtacar = true;
+    });
+}</pre>
+
+<h3>4.4 Clases auxiliares (<code>Gema</code>, <code>Bandera</code>)</h3>
+<p>
+    Son envoltorios delgados de <code>Phaser.Physics.Arcade.Sprite</code> que desactivan la
+    gravedad. <code>Gema</code> añade metadatos (<code>tipo</code>, <code>valor</code>,
+    <code>total</code>) que la escena usa para puntuar y detectar la recogida completa
+    de un color.
+</p>
+
+<h2>5. Capturas de pantalla</h2>
+<blockquote>Pendiente de añadir capturas reales del juego en ejecución.</blockquote>
+<table>
+    <thead><tr><th>#</th><th>Captura</th><th>Descripción</th></tr></thead>
+    <tbody>
+        <tr><td>1</td><td><em>(añadir)</em></td><td>Inicio del nivel</td></tr>
+        <tr><td>2</td><td><em>(añadir)</em></td><td>HUD con gemas y llaves</td></tr>
+        <tr><td>3</td><td><em>(añadir)</em></td><td>Foxy ejecutando el roll</td></tr>
+        <tr><td>4</td><td><em>(añadir)</em></td><td>Foxy recibiendo daño</td></tr>
+        <tr><td>5</td><td><em>(añadir)</em></td><td>Pantalla de victoria</td></tr>
+    </tbody>
+</table>
+
+<h2>6. Ejecución del juego</h2>
+<h3>Localmente</h3>
+<p>
+    Como el proyecto utiliza módulos ES, no es posible abrir el <code>index.html</code> con
+    doble click (lo bloquea la política CORS de <code>file://</code>). Hay que servirlo por HTTP:
+</p>
+<pre>cd actividad3-juegosweb.github.io
+python3 -m http.server 8000</pre>
+<p>Y abrir en el navegador <code>http://localhost:8000/index.html</code>. Alternativas: extensión <em>Live Server</em>, <code>npx http-server</code>, etc.</p>
+
+<h3>En la Web</h3>
+<p>[PENDIENTE — añadir URL de GitHub Pages cuando esté publicado]</p>
+
+<h2>7. Reparto de tareas</h2>
+<table>
+    <thead><tr><th>Integrante</th><th>Responsabilidad principal</th></tr></thead>
+    <tbody>
+        <tr><td>[NOMBRE 1]</td><td>Personaje principal: clase <code>Player</code>, movimiento, salto, ataque y daño.</td></tr>
+        <tr><td>[NOMBRE 2]</td><td>—</td></tr>
+        <tr><td>[NOMBRE 3]</td><td>—</td></tr>
+        <tr><td>[NOMBRE 4]</td><td>—</td></tr>
+    </tbody>
+</table>
+
+<h2>8. Conclusiones</h2>
+<p>
+    [En 1-2 párrafos, el grupo puede comentar las dificultades encontradas, qué se ha
+    aprendido del trabajo con Phaser, decisiones de diseño relevantes (ataque como
+    <em>roll</em>, sistema de eventos para desacoplar <code>Player</code> de la escena,
+    elección de Sunnyland como pack gráfico) y posibles mejoras futuras (más niveles,
+    enemigos con IA, sonido, menú principal, etc.).]
+</p>
+
+</body>
+</html>

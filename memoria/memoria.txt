@@ -1,0 +1,314 @@
+MEMORIA DEL PROYECTO — [NOMBRE DEL JUEGO]
+
+Asignatura: [NOMBRE ASIGNATURA]
+Curso / Grupo: [CURSO]
+Integrantes: [NOMBRE 1], [NOMBRE 2], [NOMBRE 3], [NOMBRE 4]
+Fecha de entrega: [DD/MM/AAAA]
+URL del juego publicado: [PENDIENTE — añadir cuando se publique en GitHub Pages]
+Repositorio: [URL del repositorio]
+Vídeo de gameplay: [opcional — URL de YouTube/Drive]
+
+
+==========================================================
+1. INTRODUCCIÓN
+==========================================================
+
+[NOMBRE DEL JUEGO] es un videojuego de plataformas 2D desarrollado con la
+librería Phaser 3 (versión 3.90.0) como parte de la actividad grupal de la
+asignatura [NOMBRE ASIGNATURA]. El jugador controla a Foxy, un pequeño zorro
+que debe recorrer un nivel basado en tilemap, recoger gemas de distintos
+colores para desbloquear los muros del mismo color, evitar enemigos y llegar
+a la bandera final para superar la fase.
+
+El proyecto se ha construido íntegramente con tecnologías web (HTML5,
+JavaScript modular ES6 y CSS), lo que permite su ejecución directa en
+cualquier navegador moderno sin necesidad de instalación.
+
+Objetivos del juego:
+  - Recoger todas las gemas de cada color para hacer desaparecer el muro
+    correspondiente.
+  - Esquivar o derrotar a los enemigos mediante el ataque de embestida (roll).
+  - Conservar al menos un punto de vida hasta alcanzar la bandera final.
+
+
+==========================================================
+2. CÓMO JUGAR
+==========================================================
+
+Controles:
+  Moverse ............ A / D  o  ← / →
+  Saltar ............. W, Espacio  o  ↑
+  Atacar (roll) ...... S
+  (Debug) Daño ....... H
+
+Mecánicas principales:
+  1. Movimiento horizontal con velocidad constante (velocidad = 180).
+  2. Salto solo si el personaje está apoyado en el suelo (onFloor()),
+     velocidad inicial -380.
+  3. Ataque tipo "roll": Foxy se impulsa hacia delante a 280 px/s durante
+     400 ms y activa una hitbox invisible que daña a los enemigos.
+     Cooldown de 500 ms entre ataques.
+  4. Sistema de vida: el jugador empieza con 3 puntos. Al recibir daño
+     parpadea, queda invulnerable durante 1 segundo y recibe knockback hacia
+     el lado contrario a la fuente. A 0 puntos se muestra GAME OVER.
+  5. Recogida de gemas y desbloqueo de muros: al completar todas las gemas
+     de un color, el muro de ese color desaparece y en el HUD se muestra
+     la llave correspondiente.
+  6. Final del nivel: al tocar la bandera aparece YOU WIN.
+
+
+==========================================================
+3. ELEMENTOS QUE COMPONEN EL JUEGO
+==========================================================
+
+3.1 Estructura de directorios
+-----------------------------
+
+actividad3-juegosweb.github.io/
+├── index.html              entrada principal del juego
+├── index2.html             escena de pruebas del Personaje
+├── assets/
+│   ├── mapa.json           tilemap exportado desde Tiled
+│   ├── tiles.png           tileset principal
+│   ├── prota.png           sprite antiguo (no usado en versión final)
+│   ├── spr_player.png      atlas antiguo (no usado)
+│   ├── spr_player_atlas.json
+│   ├── gem_*.png           gemas (azul, verde, roja, amarilla)
+│   ├── key_*.png           llaves
+│   ├── flag.png            bandera de meta
+│   ├── coin_gold.png       icono de marcador
+│   └── sunny/              paquete gráfico Sunnyland
+│       ├── Characters/Foxy/Sprites/   frames del protagonista
+│       └── environment/, Misc/         tilesets y FX adicionales
+└── scripts/
+    ├── main.js             configuración de Phaser y arranque
+    ├── main2.js            arranque de la escena de prueba
+    ├── escenaBase.js       escena principal del juego
+    ├── escenaBase2.js      escena aislada para probar el Personaje
+    ├── player.js           clase Player (versión Foxy)
+    ├── jugador.js          clase Jugador (versión antigua, conservada)
+    ├── gema.js             clase Gema
+    └── bandera.js          clase Bandera
+
+
+3.2 Inventario de clases
+------------------------
+
+  EscenaBase   (escenaBase.js)   hereda de Phaser.Scene
+    Escena principal del juego: carga assets, monta el tilemap, instancia
+    jugador/gemas/bandera, gestiona colisiones y HUD.
+
+  EscenaBase2  (escenaBase2.js)  hereda de Phaser.Scene
+    Escena reducida usada como banco de pruebas del Personaje.
+
+  Player       (player.js)       hereda de Phaser.Physics.Arcade.Sprite
+    Personaje principal (Foxy). Movimiento, salto, ataque, daño,
+    invulnerabilidad y muerte.
+
+  Jugador      (jugador.js)      hereda de Phaser.Physics.Arcade.Sprite
+    Versión inicial del protagonista, conservada por compatibilidad
+    con la escena original.
+
+  Gema         (gema.js)         hereda de Phaser.Physics.Arcade.Sprite
+    Coleccionable. Atributos: tipo (color), valor y total.
+
+  Bandera      (bandera.js)      hereda de Phaser.Physics.Arcade.Sprite
+    Marca el final del nivel.
+
+
+3.3 Inventario de assets
+------------------------
+
+  assets/sunny/Characters/Foxy/
+      Origen: Sunnyland (Ansimuz, licencia libre)
+      Uso:    sprites del protagonista (idle, run, jump, hurt, Roll).
+
+  assets/sunny/environment/
+      Origen: Sunnyland
+      Uso:    tilesets y props decorativos.
+
+  assets/sunny/Misc/
+      Origen: Sunnyland
+      Uso:    efectos visuales e ítems extra.
+
+  assets/tiles.png, assets/mapa.json
+      Origen: material de la asignatura / Tiled
+      Uso:    mapa principal del nivel.
+
+  assets/gem_*.png, assets/key_*.png, assets/flag.png, assets/coin_gold.png
+      Origen: material de la asignatura
+      Uso:    coleccionables, llaves, meta y HUD.
+
+  phaser.min.js (CDN)
+      Origen: Phaser Studio (licencia MIT)
+      Uso:    motor del juego.
+
+Nota sobre licencias: todos los recursos gráficos externos pertenecen al
+pack Sunnyland de Ansimuz (distribución libre); Phaser se distribuye bajo
+licencia MIT. No se han incorporado recursos protegidos por derechos de
+autor.
+
+
+==========================================================
+4. DESCRIPCIÓN DEL CÓDIGO RELEVANTE
+==========================================================
+
+4.1 Arranque y configuración (main.js)
+--------------------------------------
+Configura una instancia de Phaser.Game con Phaser.AUTO (WebGL o Canvas),
+escalado FIT y un canvas lógico de 1200x640. Activa la física Arcade con
+gravedad vertical 500. La escena registrada es EscenaBase.
+
+    const config = {
+        type: Phaser.AUTO,
+        scale: { mode: Phaser.Scale.FIT, width: 1200, height: 640, ... },
+        backgroundColor: '#87CEEB',
+        scene: EscenaBase,
+        physics: { default: 'arcade', arcade: { gravity: { y: 500 } } }
+    };
+    new Phaser.Game(config);
+
+
+4.2 Escena principal (escenaBase.js)
+------------------------------------
+
+  preload(): carga las gemas, llaves, bandera, moneda, el atlas del
+             protagonista, el tileset y mapa.json.
+
+  create():
+    1. Crea el tilemap (this.make.tilemap({ key:'map' })) y monta las
+       capas plataformas, muroAzul, muroRojo, muroVerde, muroAmarillo.
+    2. Instancia el Jugador y añade colliders contra cada capa de muro
+       y contra las plataformas.
+    3. Recorre las object layers (gemasAzules, gemasVerdes, ...) y crea
+       una Gema por cada objeto, con su collider contra el jugador.
+    4. Instancia la Bandera y su collider.
+    5. Construye el HUD con marcadores de cada gema, llaves y monedas.
+
+  colGemaJugador(gema, jugador): suma puntos según el tipo/valor de la
+    gema, actualiza el HUD y, cuando se completan todas las gemas de un
+    color, destruye el collider y la capa de muro correspondiente,
+    sustituyendo en el HUD la gema por la llave.
+
+  colBanderaJugador(): destruye la bandera y muestra YOU WIN.
+
+
+4.3 Clase Player (player.js)
+----------------------------
+
+Es la pieza con más responsabilidad. Decisiones de diseño:
+
+  - Controles agrupados en un objeto "teclas" (A, D, S, W, Space) junto a
+    "cursors" de flechas, para centralizar la configuración de input.
+
+  - Parámetros configurables como propiedades (velocidad, velocidadSalto,
+    velocidadRoll, vidaMax, duracionAtaque, cooldownAtaque,
+    tiempoInvulnerable) para facilitar el balance sin tocar la lógica.
+
+  - Animaciones creadas dinámicamente en crearAnimaciones() con un helper
+    framesDe(prefijo, n) que construye el array a partir de imágenes
+    individuales (los sprites de Foxy vienen como ficheros PNG sueltos,
+    no como spritesheet único).
+
+  - Ataque mediante Phaser.GameObjects.Zone: se crea una zona invisible
+    (hitboxAtaque) con cuerpo de física, desactivada por defecto. Al
+    atacar se habilita durante duracionAtaque ms y se reposiciona delante
+    del jugador según flipX. Esto permite detectar colisiones con
+    enemigos sin necesidad de un sprite de arma.
+
+  - Sistema de daño con invulnerabilidad temporal: recibirDano() ignora
+    el golpe si ya es invulnerable, aplica knockback hacia el lado
+    opuesto a la fuente, lanza un tween de parpadeo (alpha 1 -> 0.3 -> 1)
+    y emite el evento jugador-dano con la vida restante para que la
+    escena pueda actualizar el HUD.
+
+  - Comunicación por eventos (jugador-ataca, jugador-dano, jugador-muerto)
+    a través de escena.events, para desacoplar Player de la escena.
+
+Ejemplo del método de ataque:
+
+    atacar() {
+        this.atacando = true;
+        this.puedeAtacar = false;
+
+        const dir = this.flipX ? -1 : 1;
+        this.setVelocityX(dir * this.velocidadRoll);
+
+        this.hitboxAtaque.body.enable = true;
+        this.play('player_roll', true);
+        this.escena.events.emit('jugador-ataca', this.hitboxAtaque);
+
+        this.escena.time.delayedCall(this.duracionAtaque, () => {
+            this.hitboxAtaque.body.enable = false;
+            this.atacando = false;
+        });
+        this.escena.time.delayedCall(this.cooldownAtaque, () => {
+            this.puedeAtacar = true;
+        });
+    }
+
+
+4.4 Clases auxiliares (Gema, Bandera)
+-------------------------------------
+Son envoltorios delgados de Phaser.Physics.Arcade.Sprite que únicamente
+desactivan la gravedad (body.allowGravity = false). Gema guarda metadatos
+(tipo, valor, total) usados después por la escena para puntuar y para
+detectar cuándo se han recogido todas las gemas de un color.
+
+
+==========================================================
+5. CAPTURAS DE PANTALLA
+==========================================================
+
+Pendiente de añadir capturas reales del juego en ejecución.
+
+Capturas recomendadas:
+  1. Pantalla inicial / primer tramo del nivel con Foxy y las primeras gemas.
+  2. HUD con varias gemas recogidas y al menos una llave obtenida.
+  3. Momento de ataque (animación de roll).
+  4. Momento de recibir daño (parpadeo).
+  5. Pantalla final con la bandera y el mensaje YOU WIN.
+
+
+==========================================================
+6. EJECUCIÓN DEL JUEGO
+==========================================================
+
+Localmente:
+  Como el proyecto utiliza módulos ES (script type="module"), no es posible
+  abrir el index.html con doble click (lo bloquea la política CORS de
+  file://). Hay que servirlo por HTTP:
+
+      cd actividad3-juegosweb.github.io
+      python3 -m http.server 8000
+
+  Y abrir en el navegador http://localhost:8000/index.html
+
+  Alternativas equivalentes: extensión Live Server de VS Code,
+  npx http-server, etc.
+
+En la Web:
+  [PENDIENTE — añadir URL de GitHub Pages cuando esté publicado]
+
+
+==========================================================
+7. REPARTO DE TAREAS
+==========================================================
+
+  [NOMBRE 1]  Personaje principal: clase Player, movimiento, salto,
+              ataque y daño.
+  [NOMBRE 2]  —
+  [NOMBRE 3]  —
+  [NOMBRE 4]  —
+
+
+==========================================================
+8. CONCLUSIONES
+==========================================================
+
+[En 1-2 párrafos, el grupo puede comentar las dificultades encontradas,
+qué se ha aprendido del trabajo con Phaser, decisiones de diseño
+relevantes (por ejemplo, el ataque como roll en lugar de proyectil, el
+sistema de eventos para desacoplar Player de la escena, la elección de
+Sunnyland como pack gráfico) y posibles mejoras futuras (más niveles,
+enemigos con IA, sonido, menú principal...).]
