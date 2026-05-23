@@ -1,6 +1,8 @@
 import Player from './player.js';
-import Llave from './llave.js';
-import KeyType from './keyType.js'
+import Llave from './objects/llave.js';
+import Moneda from './objects/moneda.js';
+import KeyType from './objects/keyType.js'
+import CoinType from './objects/coinType.js'
 import Opossum from './enemies/Opossum.js';
 import Eagle from './enemies/Eagle.js';
 import Frog from './enemies/Frog.js';
@@ -23,6 +25,9 @@ export default class EscenaBase extends Phaser.Scene {
         this.load.image('llaveNaranja', 'assets/icons/orangeKey.png');
         this.load.image('corazonLleno', 'assets/icons/heartFull.png');
         this.load.image('corazonVacio', 'assets/icons/heartEmpty.png');
+        this.load.image('monedaBronce', 'assets/icons/coinBronze.png');
+        this.load.image('monedaPlata', 'assets/icons/coinSilver.png');
+        this.load.image('monedaOro', 'assets/icons/coinGold.png');
 
 
         // CARGAR ANIMACIONES PLAYER //
@@ -49,6 +54,7 @@ export default class EscenaBase extends Phaser.Scene {
         this.load.audio('musica-fondo', 'assets/audio/musica.mp3');
         this.load.audio('enemy-dead-sound', 'assets/audio/sonido-explosion.mp3');
         this.load.audio('hurt-sound', 'assets/audio/sonido-dano.mp3');
+        this.load.audio('coin-sound', 'assets/audio/sonido-moneda.mp3');
     }
 
     create(){
@@ -95,6 +101,7 @@ export default class EscenaBase extends Phaser.Scene {
 
         // CREAR PLAYER //
         this.player = new Player(this,850, 390);
+
 
         // COLISION PLAYER CON SUELO //
         this.physics.add.collider(this.player, this.solid);
@@ -212,7 +219,7 @@ export default class EscenaBase extends Phaser.Scene {
        this.enemies.add(new Eagle(this, 1550,560));
 
        this.cameras.main.startFollow(this.player);
-       //this.cameras.main.setZoom(4);
+       this.cameras.main.setZoom(4);
        this.cameras.main.setBounds(0,0,
        this.mapa.widthInPixels,this.mapa.heightInPixels);
 
@@ -231,12 +238,9 @@ export default class EscenaBase extends Phaser.Scene {
         });
 
         
-
-
         // OBJETOS COLECIONABLES //
         if (this.mapa.getObjectLayer('yellowKey')!=null){
             this.objetos = this.mapa.getObjectLayer('yellowKey').objects;
-            this.totalAzul = this.objetos.length;
             this.objetos.forEach(objeto => {
                 this.llave = new Llave(this, objeto.x, objeto.y, 'llaveAmarilla', KeyType.Yellow)
                 this.physics.add.collider(this.llave, this.solid);
@@ -250,7 +254,6 @@ export default class EscenaBase extends Phaser.Scene {
 
         if (this.mapa.getObjectLayer('greenKey')!=null){
             this.objetos = this.mapa.getObjectLayer('greenKey').objects;
-            this.totalAzul = this.objetos.length;
             this.objetos.forEach(objeto => {
                 this.llave = new Llave(this, objeto.x, objeto.y, 'llaveVerde', KeyType.Green)
                 this.physics.add.collider(this.llave, this.solid);
@@ -264,7 +267,6 @@ export default class EscenaBase extends Phaser.Scene {
 
         if (this.mapa.getObjectLayer('redKey')!=null){
             this.objetos = this.mapa.getObjectLayer('redKey').objects;
-            this.totalAzul = this.objetos.length;
             this.objetos.forEach(objeto => {
                 this.llave = new Llave(this, objeto.x, objeto.y, 'llaveRoja', KeyType.Red)
                 this.physics.add.collider(this.llave, this.solid);
@@ -278,7 +280,6 @@ export default class EscenaBase extends Phaser.Scene {
 
         if (this.mapa.getObjectLayer('blueKey')!=null){
             this.objetos = this.mapa.getObjectLayer('blueKey').objects;
-            this.totalAzul = this.objetos.length;
             this.objetos.forEach(objeto => {
                 this.llave = new Llave(this, objeto.x, objeto.y, 'llaveAzul', KeyType.Blue)
                 this.physics.add.collider(this.llave, this.solid);
@@ -292,7 +293,6 @@ export default class EscenaBase extends Phaser.Scene {
 
         if (this.mapa.getObjectLayer('orangeKey')!=null){
             this.objetos = this.mapa.getObjectLayer('orangeKey').objects;
-            this.totalAzul = this.objetos.length;
             this.objetos.forEach(objeto => {
                 this.llave = new Llave(this, objeto.x, objeto.y, 'llaveNaranja', KeyType.Orange)
                 this.physics.add.collider(this.llave, this.solid);
@@ -304,11 +304,54 @@ export default class EscenaBase extends Phaser.Scene {
             console.log('No hay capa de llave naranja');
         }
 
+        // Monedas
+        if (this.mapa.getObjectLayer('bronzeCoins')!=null){
+            this.objetos = this.mapa.getObjectLayer('bronzeCoins').objects;
+            this.objetos.forEach(objeto => {
+                this.moneda = new Moneda(this, objeto.x, objeto.y, 'monedaBronce', CoinType.Bronze)
+                this.physics.add.collider(this.moneda, this.solid);
+            
+                // para recoger la llave
+                this.physics.add.collider(this.moneda, this.player, this.cogeMoneda, null, this);
+            })
+        } else {
+            console.log('No hay capa de monedas de bornce');
+        }
 
-        // HUD //850, 390);
-        // Marcador de llaves
 
-        this.txtMarcador = this.add.text(1322, 375, "1234");
+        if (this.mapa.getObjectLayer('silverCoins')!=null){
+            this.objetos = this.mapa.getObjectLayer('silverCoins').objects;
+            this.objetos.forEach(objeto => {
+                this.moneda = new Moneda(this, objeto.x, objeto.y, 'monedaPlata', CoinType.Silver)
+                this.physics.add.collider(this.moneda, this.solid);
+            
+                // para recoger la llave
+                this.physics.add.collider(this.moneda, this.player, this.cogeMoneda, null, this);
+            })
+        } else {
+            console.log('No hay capa de monedas de bornce');
+        }
+
+
+        if (this.mapa.getObjectLayer('goldCoins')!=null){
+            this.objetos = this.mapa.getObjectLayer('goldCoins').objects;
+            this.objetos.forEach(objeto => {
+                this.moneda = new Moneda(this, objeto.x, objeto.y, 'monedaOro', CoinType.Gold)
+                this.physics.add.collider(this.moneda, this.solid);
+            
+                // para recoger la llave
+                this.physics.add.collider(this.moneda, this.player, this.cogeMoneda, null, this);
+            })
+        } else {
+            console.log('No hay capa de monedas de bornce');
+        }
+
+
+        // HUD //
+        // MARCADOR PUNTOS //
+        this.puntosTotales = 0;
+        
+        this.txtMarcador = this.add.text(1322, 375, "0000");
         this.txtMarcador.setFontSize(20);
         this.txtMarcador.setStyle({
             fontStyle: 'bold italic',
@@ -352,7 +395,7 @@ export default class EscenaBase extends Phaser.Scene {
                 this.colliderAmarillo.destroy();
                 this.muroAmarillo.destroy();
                 this.enemyColliderAmarillo.destroy();
-                this.imagenLlaveAmarilla = this.add.image(1360,403,'llaveAmarilla');
+                this.imagenLlaveAmarilla = this.add.image(1365,403,'llaveAmarilla');
                 this.imagenLlaveAmarilla.setScale(1); // duplicamos el tamaño
                 this.imagenLlaveAmarilla.setScrollFactor(0); // evitar que se mueva
                 break;
@@ -360,7 +403,7 @@ export default class EscenaBase extends Phaser.Scene {
                 this.colliderVerde.destroy();
                 this.muroVerde.destroy();
                 this.enemyColliderVerde.destroy();
-                this.imageLlaveVerde = this.add.image(1360,423,'llaveVerde');
+                this.imageLlaveVerde = this.add.image(1365,423,'llaveVerde');
                 this.imageLlaveVerde.setScale(1); // duplicamos el tamaño
                 this.imageLlaveVerde.setScrollFactor(0); // evitar que se mueva
                 break;
@@ -368,7 +411,7 @@ export default class EscenaBase extends Phaser.Scene {
                 this.colliderRojo.destroy();
                 this.muroRojo.destroy();
                 this.enemyColliderRojo.destroy();
-                this.imageLlaveRoja = this.add.image(1360,443,'llaveRoja');
+                this.imageLlaveRoja = this.add.image(1365,443,'llaveRoja');
                 this.imageLlaveRoja.setScale(1); // duplicamos el tamaño
                 this.imageLlaveRoja.setScrollFactor(0); // evitar que se mueva
                 break;
@@ -376,7 +419,7 @@ export default class EscenaBase extends Phaser.Scene {
                 this.colliderAzul.destroy();
                 this.muroAzul.destroy();
                 this.enemyColliderAzul.destroy();
-                this.imageLlaveAzul = this.add.image(1360,463,'llaveAzul');
+                this.imageLlaveAzul = this.add.image(1365,463,'llaveAzul');
                 this.imageLlaveAzul.setScale(1); // duplicamos el tamaño
                 this.imageLlaveAzul.setScrollFactor(0); // evitar que se mueva
                 break;
@@ -384,7 +427,7 @@ export default class EscenaBase extends Phaser.Scene {
                 this.colliderNaranja.destroy();
                 this.muroNaranja.destroy();
                 this.enemyColliderNaranja.destroy();
-                this.imageLlaveNaranja = this.add.image(1360,483,'llaveNaranja');
+                this.imageLlaveNaranja = this.add.image(1365,483,'llaveNaranja');
                 this.imageLlaveNaranja.setScale(1); // duplicamos el tamaño
                 this.imageLlaveNaranja.setScrollFactor(0); // evitar que se mueva
                 break;
@@ -392,6 +435,35 @@ export default class EscenaBase extends Phaser.Scene {
             default:
                 break;
         }
+    }
+
+    cogeMoneda(moneda, jugador){
+        moneda.destroy(true);
+
+        // sonido moneda
+        this.sound.play('coin-sound', {
+            volume: 0.2
+        });
+
+        // incrementa puntación según tipo de moneda
+        switch (moneda.tipo) {
+            case CoinType.Bronze:
+                this.puntosTotales = this.puntosTotales + 1;
+                break;
+
+            case CoinType.Silver:
+                this.puntosTotales = this.puntosTotales + 3;
+                break;
+
+            case CoinType.Gold:
+                this.puntosTotales = this.puntosTotales + 5;
+                break;
+
+            default:
+                break;
+        }
+
+        this.txtMarcador.text = String(this.puntosTotales).padStart(4,'0')
     }
 
     update(){
