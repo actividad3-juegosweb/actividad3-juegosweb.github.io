@@ -255,7 +255,7 @@ export default class EscenaBase extends Phaser.Scene {
             this.objetos = this.mapa.getObjectLayer('blueKey').objects;
             this.totalAzul = this.objetos.length;
             this.objetos.forEach(objeto => {
-                this.llave = new Llave(this, objeto.x, objeto.y, 'llaveAzul', KeyType.Yellow)
+                this.llave = new Llave(this, objeto.x, objeto.y, 'llaveAzul', KeyType.Blue)
                 this.physics.add.collider(this.llave, this.solid);
             
                 // para recoger la llave
@@ -269,7 +269,7 @@ export default class EscenaBase extends Phaser.Scene {
             this.objetos = this.mapa.getObjectLayer('orangeKey').objects;
             this.totalAzul = this.objetos.length;
             this.objetos.forEach(objeto => {
-                this.llave = new Llave(this, objeto.x, objeto.y, 'llaveNaranja', KeyType.Yellow)
+                this.llave = new Llave(this, objeto.x, objeto.y, 'llaveNaranja', KeyType.Orange)
                 this.physics.add.collider(this.llave, this.solid);
             
                 // para recoger la llave
