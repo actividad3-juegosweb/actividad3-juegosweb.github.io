@@ -128,6 +128,12 @@ export default class EscenaBase extends Phaser.Scene {
 
         // CREAR GRUPO ENEMIGOS //
         this.enemies = this.add.group();
+        // COLISION ENEMIGOS CON MUROS DESBLOQUEABLES //
+        this.enemyColliderAmarillo = this.physics.add.collider(this.enemies, this.muroAmarillo);
+        this.enemyColliderVerde = this.physics.add.collider(this.enemies, this.muroVerde);
+        this.enemyColliderRojo = this.physics.add.collider(this.enemies, this.muroRojo);
+        this.enemyColliderAzul = this.physics.add.collider(this.enemies, this.muroAzul);
+        this.enemyColliderNaranja = this.physics.add.collider(this.enemies, this.muroNaranja);
 
         // COLISION ENEMIGOS CON SUELO //
         this.physics.add.collider(this.enemies, this.solid);
@@ -165,31 +171,50 @@ export default class EscenaBase extends Phaser.Scene {
             },
             loop: true
         });
-
-        // === SPAWN ZONA 1 ENEMIGOS === //
-        this.enemies.add(new Opossum(this, 250, 300));
+        // === SPAWN ZONA AMARILLA ENEMIGOS === //
+        this.enemies.add(new Opossum(this, 250, 300)); 
         this.enemies.add(new Opossum(this, 400, 300));
-
         this.enemies.add(new Frog(this, 700, 0));
         this.enemies.add(new Frog(this, 300, 0));
         this.enemies.add(new Frog(this, 500, 0));
-
-        this.enemies.add(new Eagle(this, 650, 200));
+        this.enemies.add(new Eagle(this, 650, 200)); 
         this.enemies.add(new Eagle(this, 800, 200));
 
-        // === SPAWN ZONA 2 ENEMIGOS === //
-        this.enemies.add(new Frog(this, 200, 400));
-        this.enemies.add(new Eagle(this, 290, 775));
-        this.enemies.add(new Eagle(this, 140, 630));
-        this.enemies.add(new Eagle(this, 205, 700));
-        this.enemies.add(new Eagle(this, 390, 450));
-        this.enemies.add(new Opossum(this, 250, 590));
-        this.enemies.add(new Opossum(this, 300, 890));
-        this.enemies.add(new Opossum(this, 500, 890));
-        // CONFIGURAR CAMARA //
-        this.cameras.main.startFollow(this.player);
-        this.cameras.main.setZoom(4);this.cameras.main.setBounds(0,0,
-        this.mapa.widthInPixels,this.mapa.heightInPixels);
+      // === SPAWN ZONA VERDE ENEMIGOS === // 
+
+      this.enemies.add(new Frog(this, 200, 400)); 
+      this.enemies.add(new Eagle(this, 290, 775)); 
+      this.enemies.add(new Eagle(this, 140, 630));
+      this.enemies.add(new Eagle(this, 205, 700)); 
+      this.enemies.add(new Eagle(this, 390, 450));
+      this.enemies.add(new Opossum(this, 250, 590));
+      this.enemies.add(new Opossum(this, 300, 890));
+      this.enemies.add(new Opossum(this, 500, 890));
+      this.enemies.add(new Eagle(this, 650, 535)); 
+
+     // === SPAWN ZONA ROJA ENEMIGOS === // 
+
+       this.enemies.add(new Frog(this, 750, 800));
+       this.enemies.add(new Opossum(this, 900, 790));
+       
+    // === SPAWN ZONA AZUL ENEMIGOS === //
+
+       this.enemies.add(new Opossum(this, 1200, 790));
+       this.enemies.add(new Opossum(this, 1200, 840));
+       this.enemies.add(new Opossum(this, 1100, 840));
+       this.enemies.add(new Frog(this, 1100, 700));
+       this.enemies.add(new Eagle(this, 1200,660));
+
+    // === SPAWN ZONA NARANJA ENEMIGOS === //
+
+       this.enemies.add(new Frog(this, 1500, 840));
+       this.enemies.add(new Opossum(this, 1550, 540));
+       this.enemies.add(new Eagle(this, 1550,560));
+
+       this.cameras.main.startFollow(this.player);
+       //this.cameras.main.setZoom(4);
+       this.cameras.main.setBounds(0,0,
+       this.mapa.widthInPixels,this.mapa.heightInPixels);
 
         // EVENTO MUERTE JUGADOR //
         this.events.on('jugador-muerto', () => {
@@ -255,7 +280,7 @@ export default class EscenaBase extends Phaser.Scene {
             this.objetos = this.mapa.getObjectLayer('blueKey').objects;
             this.totalAzul = this.objetos.length;
             this.objetos.forEach(objeto => {
-                this.llave = new Llave(this, objeto.x, objeto.y, 'llaveAzul', KeyType.Yellow)
+                this.llave = new Llave(this, objeto.x, objeto.y, 'llaveAzul', KeyType.Blue)
                 this.physics.add.collider(this.llave, this.solid);
             
                 // para recoger la llave
@@ -269,7 +294,7 @@ export default class EscenaBase extends Phaser.Scene {
             this.objetos = this.mapa.getObjectLayer('orangeKey').objects;
             this.totalAzul = this.objetos.length;
             this.objetos.forEach(objeto => {
-                this.llave = new Llave(this, objeto.x, objeto.y, 'llaveNaranja', KeyType.Yellow)
+                this.llave = new Llave(this, objeto.x, objeto.y, 'llaveNaranja', KeyType.Orange)
                 this.physics.add.collider(this.llave, this.solid);
             
                 // para recoger la llave
@@ -326,6 +351,7 @@ export default class EscenaBase extends Phaser.Scene {
             case KeyType.Yellow:
                 this.colliderAmarillo.destroy();
                 this.muroAmarillo.destroy();
+                this.enemyColliderAmarillo.destroy();
                 this.imagenLlaveAmarilla = this.add.image(1360,403,'llaveAmarilla');
                 this.imagenLlaveAmarilla.setScale(1); // duplicamos el tamaño
                 this.imagenLlaveAmarilla.setScrollFactor(0); // evitar que se mueva
@@ -333,6 +359,7 @@ export default class EscenaBase extends Phaser.Scene {
             case KeyType.Green:
                 this.colliderVerde.destroy();
                 this.muroVerde.destroy();
+                this.enemyColliderVerde.destroy();
                 this.imageLlaveVerde = this.add.image(1360,423,'llaveVerde');
                 this.imageLlaveVerde.setScale(1); // duplicamos el tamaño
                 this.imageLlaveVerde.setScrollFactor(0); // evitar que se mueva
@@ -340,6 +367,7 @@ export default class EscenaBase extends Phaser.Scene {
             case KeyType.Red:
                 this.colliderRojo.destroy();
                 this.muroRojo.destroy();
+                this.enemyColliderRojo.destroy();
                 this.imageLlaveRoja = this.add.image(1360,443,'llaveRoja');
                 this.imageLlaveRoja.setScale(1); // duplicamos el tamaño
                 this.imageLlaveRoja.setScrollFactor(0); // evitar que se mueva
@@ -347,6 +375,7 @@ export default class EscenaBase extends Phaser.Scene {
             case KeyType.Blue:
                 this.colliderAzul.destroy();
                 this.muroAzul.destroy();
+                this.enemyColliderAzul.destroy();
                 this.imageLlaveAzul = this.add.image(1360,463,'llaveAzul');
                 this.imageLlaveAzul.setScale(1); // duplicamos el tamaño
                 this.imageLlaveAzul.setScrollFactor(0); // evitar que se mueva
@@ -354,6 +383,7 @@ export default class EscenaBase extends Phaser.Scene {
             case KeyType.Orange:
                 this.colliderNaranja.destroy();
                 this.muroNaranja.destroy();
+                this.enemyColliderNaranja.destroy();
                 this.imageLlaveNaranja = this.add.image(1360,483,'llaveNaranja');
                 this.imageLlaveNaranja.setScale(1); // duplicamos el tamaño
                 this.imageLlaveNaranja.setScrollFactor(0); // evitar que se mueva
