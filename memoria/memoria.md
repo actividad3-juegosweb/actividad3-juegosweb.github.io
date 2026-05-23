@@ -43,20 +43,32 @@ moderno sin necesidad de instalación.
 
 **Mecánicas principales:**
 
-1. **Movimiento horizontal** con aceleración instantánea (`velocidad = 180`).
-2. **Salto** únicamente cuando el personaje está apoyado en el suelo
-   (`onFloor()`), con velocidad inicial de `-380`.
+1. **Movimiento horizontal** con velocidad constante (`velocidad = 180`).
+2. **Salto** solo cuando el personaje está apoyado en el suelo
+   (`onFloor()`), velocidad inicial `-380`.
 3. **Ataque tipo *roll***: al pulsar la tecla de ataque, Foxy se impulsa hacia
    delante a `280 px/s` durante `400 ms` y activa una *hitbox* invisible que
-   daña a los enemigos. Hay un *cooldown* de `500 ms` entre ataques.
-4. **Sistema de vida**: el jugador empieza con 3 puntos de vida. Cada vez que
-   recibe daño parpadea, queda invulnerable durante 1 segundo y recibe un
-   *knockback* en sentido contrario al de la fuente del daño. Al llegar a 0
-   se dispara el evento `jugador-muerto` y se muestra *GAME OVER*.
-5. **Recogida de gemas y desbloqueo de muros**: cada gema recogida suma puntos
-   al marcador correspondiente; al completar el total de un color, el muro
-   de ese color desaparece y se sustituye en el HUD por la llave.
-6. **Final del nivel**: al tocar la bandera se muestra el mensaje *YOU WIN*.
+   daña a los enemigos. *Cooldown* de `500 ms` entre ataques. Durante el roll
+   el jugador no puede moverse manualmente (le da sensación de peso).
+4. **Sistema de vida (3 corazones)**: el jugador empieza con 3 puntos. Al
+   recibir daño parpadea, queda invulnerable durante 1 segundo y recibe un
+   *knockback* en sentido contrario al de la fuente. El HUD muestra los 3
+   corazones como llenos o vacíos según la vida actual. Al llegar a 0 se
+   muestra *GAME OVER*.
+5. **Corazones recolectables**: el mapa contiene corazones que, al recogerlos,
+   suman 1 punto de vida hasta el máximo de 3. Si la vida ya está al máximo,
+   el corazón no se recoge.
+6. **Llaves y muros desbloqueables**: hay 5 muros de colores (amarillo, verde,
+   rojo, azul y naranja) y 5 llaves del mismo color en el mapa. Al recoger
+   una llave se destruye el muro correspondiente y aparece su icono en el HUD.
+7. **Combate contra enemigos**: el jugador puede derrotarlos de dos formas
+   (ver `checkAgainstEnemies` en la escena):
+   - **Pisándolos** desde arriba (cayendo sobre ellos) → rebote vertical
+     automático estilo Mario.
+   - **Atacando con roll** mientras los toca.
+   Si el contacto no cumple ninguna de las dos condiciones, el jugador
+   recibe 1 punto de daño y suena el SFX de daño.
+8. **Audio**: música de fondo en bucle y SFX de ataque/daño.
 
 ---
 
@@ -66,53 +78,74 @@ moderno sin necesidad de instalación.
 
 ```
 actividad3-juegosweb.github.io/
-├── index.html              # entrada principal del juego
-├── index2.html             # escena de pruebas del Personaje
+├── index.html                  # punto de entrada (carga main2.js)
 ├── assets/
-│   ├── mapa.json           # tilemap exportado desde Tiled
-│   ├── tiles.png           # tileset principal
-│   ├── prota.png           # sprite antiguo (no usado en versión final)
-│   ├── spr_player.png      # atlas antiguo (no usado)
-│   ├── spr_player_atlas.json
-│   ├── gem_*.png           # gemas (azul, verde, roja, amarilla)
-│   ├── key_*.png           # llaves
-│   ├── flag.png            # bandera de meta
-│   ├── coin_gold.png       # icono de marcador
-│   └── sunny/              # paquete gráfico Sunnyland
-│       ├── Characters/Foxy/Sprites/   # frames del protagonista
-│       └── environment/, Misc/         # tilesets y FX adicionales
+│   ├── map.json                # tilemap principal (Tiled)
+│   ├── tileset.png             # tileset principal del nivel
+│   ├── tileset.json            # metadatos del tileset
+│   ├── back.png                # tileset del fondo (parallax fijo)
+│   ├── house.png               # tileset de las casas/estructuras
+│   ├── atlas.png               # atlas de enemigos (opossum, frog, eagle, death)
+│   ├── atlas.json              # metadatos del atlas de enemigos
+│   ├── audio/
+│   │   ├── musica.mp3          # música de fondo en loop
+│   │   ├── sonido-dano.mp3     # SFX cuando el jugador recibe daño
+│   │   ├── sonido-explosion.mp3# SFX cuando muere un enemigo
+│   │   └── sonido-moneda.mp3   # SFX al recoger moneda
+│   ├── icons/                  # iconos del HUD
+│   │   ├── heartFull.png       # corazón lleno (vida actual)
+│   │   ├── heartEmpty.png      # corazón vacío (vida perdida)
+│   │   ├── keyYellow/Green/Red/Blue.png, orangeKey.png
+│   │   └── coinGold/Silver/Bronze.png
+│   └── sunny/                  # paquete gráfico Sunny Land (ansimuz, CC0)
+│       ├── Characters/Foxy/Sprites/    # frames del protagonista
+│       └── environment/, Misc/         # tilesets y FX adicionales del pack
 └── scripts/
-    ├── main.js             # configuración Phaser y arranque
-    ├── main2.js            # arranque de la escena de prueba
-    ├── escenaBase.js       # escena principal del juego
-    ├── escenaBase2.js      # escena aislada para probar el Personaje
-    ├── player.js           # clase Player (versión Foxy)
-    ├── jugador.js          # clase Jugador (versión antigua, conservada)
-    ├── gema.js             # clase Gema
-    └── bandera.js          # clase Bandera
+    ├── main2.js                # configuración de Phaser y arranque
+    ├── escenaBase2.js          # escena principal del juego (única)
+    ├── player.js               # clase Player (Foxy)
+    ├── life.js                 # clase Corazon (coleccionable de vida)
+    ├── enemies/
+    │   ├── Opossum.js          # enemigo terrestre que patrulla
+    │   ├── Frog.js             # enemigo que salta sincronizado
+    │   └── Eagle.js            # enemigo aéreo con tween vertical
+    └── objects/
+        ├── llave.js            # clase Llave (coleccionable)
+        ├── keyType.js          # enum de colores de llave
+        ├── moneda.js           # clase Moneda (coleccionable)
+        └── coinType.js         # enum/valores de moneda
 ```
 
 ### 3.2 Inventario de clases
 
-| Clase          | Fichero            | Hereda de                     | Descripción |
-|----------------|--------------------|-------------------------------|-------------|
-| `EscenaBase`   | `escenaBase.js`    | `Phaser.Scene`                | Escena principal del juego: carga assets, monta el tilemap, instancia jugador/gemas/bandera, gestiona colisiones y HUD. |
-| `EscenaBase2`  | `escenaBase2.js`   | `Phaser.Scene`                | Escena reducida usada como banco de pruebas del Personaje. |
-| `Player`       | `player.js`        | `Phaser.Physics.Arcade.Sprite`| Personaje principal (Foxy). Gestiona movimiento, salto, ataque, daño, invulnerabilidad y muerte. |
-| `Jugador`      | `jugador.js`       | `Phaser.Physics.Arcade.Sprite`| Versión inicial del protagonista, mantenida por compatibilidad con la escena original. |
-| `Gema`         | `gema.js`          | `Phaser.Physics.Arcade.Sprite`| Coleccionable. Tiene `tipo` (color), `valor` y `total`. |
-| `Bandera`      | `bandera.js`       | `Phaser.Physics.Arcade.Sprite`| Marca el final del nivel. |
+| Clase           | Fichero                  | Hereda de                       | Descripción |
+|-----------------|--------------------------|---------------------------------|-------------|
+| `EscenaBase`    | `escenaBase2.js`         | `Phaser.Scene`                  | Escena principal del juego: carga assets, monta el tilemap (múltiples capas), instancia al jugador, enemigos, llaves y corazones, gestiona colisiones, HUD, música y eventos. |
+| `Player`        | `player.js`              | `Phaser.Physics.Arcade.Sprite`  | Personaje principal (Foxy). Gestiona movimiento, salto, ataque tipo *roll*, sistema de daño con invulnerabilidad, curación y muerte. Se comunica con la escena por eventos. |
+| `Corazon`       | `life.js`                | `Phaser.Physics.Arcade.Sprite`  | Coleccionable de vida. Sin gravedad. Recoge → llama a `player.curar(1)` (con tope a `vidaMax`). |
+| `Llave`         | `objects/llave.js`       | `Phaser.Physics.Arcade.Sprite`  | Coleccionable. Atributo `tipo` (valor de `KeyType`). Al recogerla, desbloquea el muro del mismo color. |
+| `KeyType`       | `objects/keyType.js`     | *(objeto enum)*                 | Enum de colores: `Yellow`, `Green`, `Red`, `Blue`, `Orange`. |
+| `Moneda`        | `objects/moneda.js`      | `Phaser.Physics.Arcade.Sprite`  | Coleccionable de puntos. Sin gravedad. |
+| `Opossum`       | `enemies/Opossum.js`     | `Phaser.Physics.Arcade.Sprite`  | Enemigo terrestre que patrulla horizontalmente, rebota al chocar y se voltea según la dirección. |
+| `Frog`          | `enemies/Frog.js`        | `Phaser.Physics.Arcade.Sprite`  | Enemigo que da saltos sincronizados con un temporizador global (`frogJumpSide`) de la escena. |
+| `Eagle`         | `enemies/Eagle.js`       | `Phaser.Physics.Arcade.Sprite`  | Enemigo aéreo sin gravedad. Se mueve verticalmente con un tween *yoyo* y mira hacia el jugador. |
 
 ### 3.3 Inventario de assets
 
-| Asset                                | Origen / autoría                                          | Uso |
-|--------------------------------------|-----------------------------------------------------------|-----|
-| `assets/sunny/Characters/Foxy/`      | **Sunny Land** — *ansimuz* (CC0 1.0 Universal)            | Sprites del protagonista (idle, run, jump, hurt, Roll). |
-| `assets/sunny/environment/`          | Sunny Land — *ansimuz* (CC0 1.0)                          | Tilesets y props decorativos. |
-| `assets/sunny/Misc/`                 | Sunny Land — *ansimuz* (CC0 1.0)                          | Efectos visuales e ítems extra. |
-| `assets/tiles.png`, `assets/mapa.json`| Material de la asignatura / elaboración propia con Tiled | Mapa principal del nivel. |
-| `assets/gem_*.png`, `assets/key_*.png`, `assets/flag.png`, `assets/coin_gold.png` | Material de la asignatura | Coleccionables, llaves, meta y HUD. |
-| `phaser.min.js` (CDN)                | Phaser Studio — licencia MIT                              | Motor del juego. |
+| Asset                                  | Origen / autoría                                            | Uso |
+|----------------------------------------|-------------------------------------------------------------|-----|
+| `assets/sunny/Characters/Foxy/`        | **Sunny Land** — *ansimuz* (CC0 1.0 Universal)              | Sprites del protagonista (idle, run, jump, hurt, Roll). |
+| `assets/sunny/environment/`            | Sunny Land — *ansimuz* (CC0 1.0)                            | Tilesets y props decorativos del pack. |
+| `assets/sunny/Misc/`                   | Sunny Land — *ansimuz* (CC0 1.0)                            | Efectos visuales e ítems extra del pack. |
+| `assets/tileset.png`, `assets/back.png`, `assets/house.png` | Adaptados de Sunny Land — *ansimuz* (CC0 1.0)               | Tilesets usados por el mapa principal. |
+| `assets/map.json`                      | Elaboración propia con **Tiled**                            | Tilemap del nivel jugable. |
+| `assets/atlas.png` + `assets/atlas.json` | Sunny Land — *ansimuz* (CC0 1.0), montado como atlas        | Sprites y animaciones de enemigos (opossum, frog, eagle) y FX de muerte. |
+| `assets/icons/heartFull.png`, `heartEmpty.png` | Material de la asignatura                                 | HUD de vida y coleccionable de corazón. |
+| `assets/icons/keyYellow/Green/Red/Blue.png`, `orangeKey.png` | Material de la asignatura                                 | Llaves coleccionables y HUD. |
+| `assets/icons/coinGold/Silver/Bronze.png` | Material de la asignatura                                | Monedas coleccionables. |
+| `assets/audio/musica.mp3`              | [PENDIENTE — indicar autoría/licencia]                      | Música de fondo en loop. |
+| `assets/audio/sonido-dano.mp3`, `sonido-explosion.mp3`, `sonido-moneda.mp3` | [PENDIENTE — indicar autoría/licencia]                      | Efectos de sonido. |
+| `phaser.min.js` (CDN)                  | Phaser Studio — licencia MIT                                | Motor del juego. |
 
 > **Nota sobre licencias:**
 > El pack gráfico **Sunny Land**, obra de *ansimuz*, se distribuye bajo
@@ -131,43 +164,93 @@ actividad3-juegosweb.github.io/
 
 ## 4. Descripción del código relevante
 
-### 4.1 Arranque y configuración (`main.js`)
+### 4.1 Arranque y configuración (`main2.js`)
 
-Configura una instancia de `Phaser.Game` con `Phaser.AUTO` (selecciona WebGL o
-Canvas automáticamente), modo de escalado `FIT` y un canvas lógico de
-`1200×640`. Activa la física *Arcade* con gravedad vertical `500`. La única
-escena registrada es `EscenaBase`.
+Configura una instancia de `Phaser.Game` con `Phaser.AUTO` (selecciona WebGL
+o Canvas automáticamente), modo de escalado `FIT`, canvas lógico de
+`2200×1000`. Activa la física *Arcade* con gravedad vertical `500` y modo
+`pixelArt: true` (filtros nearest-neighbor) para que los sprites pixel art
+se vean nítidos al escalar.
 
 ```js
 const config = {
     type: Phaser.AUTO,
-    scale: { mode: Phaser.Scale.FIT, width: 1200, height: 640, ... },
-    backgroundColor: '#87CEEB',
+    scale: { mode: Phaser.Scale.FIT, width: 2200, height: 1000, ... },
+    backgroundColor: '#87cfeb',
     scene: EscenaBase,
-    physics: { default: 'arcade', arcade: { gravity: { y: 500 } } }
+    physics: { default: 'arcade', arcade: { gravity: { y: 500 }, fps: 60 } },
+    render: { pixelArt: true, antialias: false, roundPixels: true }
 };
 new Phaser.Game(config);
 ```
 
-### 4.2 Escena principal (`escenaBase.js`)
+### 4.2 Escena principal (`escenaBase2.js`)
 
-- **`preload()`**: carga las 4 gemas, las 4 llaves, la bandera, la moneda,
-  el atlas del protagonista, el tileset y el `mapa.json`.
+Es la única escena del juego y orquesta todos los sistemas. Estructura:
+
+- **`preload()`**: carga el tilemap (`map.json`), los tres tilesets
+  (`tileset.png`, `back.png`, `house.png`), los iconos del HUD (llaves y
+  corazones), los frames sueltos de Foxy (idle, run, jump, hurt, Roll), el
+  atlas de enemigos (`atlas.png` + `atlas.json`) y los tres ficheros de
+  audio (música, daño y explosión).
+
 - **`create()`**:
-  1. Crea el tilemap con `this.make.tilemap({ key:'map' })` y monta las capas
-     `plataformas`, `muroAzul`, `muroRojo`, `muroVerde`, `muroAmarillo`.
-  2. Instancia el `Jugador` y añade *colliders* contra cada capa de muro y
-     contra las plataformas.
-  3. Recorre las *object layers* (`gemasAzules`, `gemasVerdes`, …) y crea una
-     `Gema` por cada objeto, con su *collider* contra el jugador
-     (`colGemaJugador`).
-  4. Instancia la `Bandera` y su *collider* (`colBanderaJugador`).
-  5. Construye el HUD con marcadores de cada gema, llaves y monedas totales.
-- **`colGemaJugador(gema, jugador)`**: suma puntos según el `tipo`/`valor`
-  de la gema, actualiza el texto del HUD y, cuando se completan todas las
-  gemas de un color, **destruye** el collider y la capa de muro
-  correspondiente, sustituyendo en el HUD la gema por la llave.
-- **`colBanderaJugador()`**: destruye la bandera y muestra el texto *YOU WIN*.
+  1. Monta el tilemap con varias capas: `background_fixed`, `background`,
+     `solid` (suelo principal), `platforms` (atravesables por abajo),
+     `foreground`, `casa`, y las 5 capas de muros desbloqueables
+     (`yellowLock`, `greenLock`, `redLock`, `blueLock`, `orangeLock`).
+  2. Inicializa la música de fondo en bucle (`musica-fondo`).
+  3. Instancia al `Player` en `(850, 390)` y configura sus *colliders* contra
+     `solid` y contra los 5 muros. Las `platforms` usan un *processCallback*
+     que solo permite colisión cuando el jugador cae (`velocity.y >= 0`).
+  4. Crea las animaciones de enemigos a partir del atlas
+     (`crearAnimacionesEnemigos`).
+  5. Crea el grupo `enemies`, sus colisiones con `solid`/`platforms` y el
+     *overlap* `checkAgainstEnemies` entre jugador y enemigos.
+  6. Lanza un `time.addEvent` periódico (cada 2 s) que alterna
+     `this.frogJumpSide` entre `'left'` y `'right'`, sincronizando los
+     saltos de todas las ranas.
+  7. *Spawnea* enemigos (`Opossum`, `Frog`, `Eagle`) en posiciones fijas
+     repartidas en dos zonas del nivel.
+  8. Recorre las *object layers* de Tiled (`yellowKey`, `greenKey`, `redKey`,
+     `blueKey`, `orangeKey`) e instancia una `Llave` por objeto con su
+     *collider* contra `solid` y contra el jugador (`cogeLlave`).
+  9. Crea el grupo de corazones (`Corazon`), sus *colliders* y el *overlap*
+     con el jugador para curación.
+  10. Construye el HUD: marcador de monedas (texto), 3 corazones e
+      huecos para las 5 llaves.
+  11. Se suscribe a los eventos del jugador (`jugador-vida-cambio`,
+      `jugador-muerto`) para actualizar HUD y mostrar *GAME OVER*.
+
+- **`cogeLlave(llave, jugador)`**: destruye la llave, destruye el *collider*
+  y la capa de muro del color correspondiente, y muestra el icono de esa
+  llave en el HUD.
+
+- **`checkAgainstEnemies(player, enemy)`**: decide si el jugador ataca o
+  recibe daño. Considera "ataque desde arriba" cuando el jugador está sobre
+  el enemigo y cae con velocidad positiva, y "ataque con roll" cuando
+  `player.atacando === true`. Si ataca: reproduce la animación
+  `enemy_dead`, el sonido `enemy-dead-sound`, destruye al enemigo y rebota
+  al jugador si vino desde arriba. Si no: `player.recibirDano(1, enemy.x)`
+  y reproduce `hurt-sound`.
+
+### 4.3 Enemigos (`scripts/enemies/`)
+
+Los tres tipos comparten que heredan de `Phaser.Physics.Arcade.Sprite` y
+exponen un `update()` que la escena invoca por iteración sobre el grupo
+`enemies`.
+
+- **`Opossum`**: enemigo terrestre. Patrulla horizontalmente con
+  `velocity.x = ±100` y `setBounce(1, 0)`, lo que hace que rebote al chocar
+  con un muro. Se voltea con `flipX` según la dirección de la velocidad.
+- **`Frog`**: enemigo que salta sincronizado. Lee la variable global de la
+  escena `frogJumpSide` (alternada cada 2 s) y, cuando cambia, da un salto
+  hacia el nuevo lado (`velocityY = -370`, `velocityX = ±90`). En el suelo
+  se detiene. Cambia de frame manualmente según suba o baje (`frog-jump-1`
+  o `frog-jump-2`).
+- **`Eagle`**: enemigo aéreo sin gravedad. Mantiene un movimiento vertical
+  constante con un `tween` *yoyo* de 1500 ms. En `update()` mira hacia el
+  jugador (`flipX = this.x <= scene.player.x`).
 
 ### 4.3 Clase `Player` (`player.js`)
 
@@ -199,10 +282,15 @@ estas decisiones clave:
   un `tween` de parpadeo (`alpha 1 → 0.3 → 1`) durante el periodo de
   invulnerabilidad y emite el evento `jugador-dano` con la vida restante
   para que la escena pueda actualizar el HUD.
+- **Curación**: el método `curar(cantidad)` aumenta la vida con tope a
+  `vidaMax` y emite `jugador-vida-cambio`. Permite a los corazones
+  recolectables (`Corazon`) restaurar HP.
 - **Comunicación por eventos**: en lugar de acoplar `Player` con la escena,
-  se emiten eventos (`jugador-ataca`, `jugador-dano`, `jugador-muerto`) a
-  través de `escena.events`. La escena se suscribe a ellos y reacciona como
-  considere (HUD, *game over*, contabilización de golpes, etc.).
+  se emiten eventos (`jugador-ataca`, `jugador-dano`, `jugador-vida-cambio`,
+  `jugador-muerto`) a través de `escena.events`. La escena se suscribe a
+  ellos y reacciona como considere (HUD, *game over*, contabilización de
+  golpes, etc.). El uso de un único evento `jugador-vida-cambio` tanto al
+  recibir daño como al curarse evita duplicar lógica en el HUD.
 
 Extracto del método de ataque:
 
@@ -228,13 +316,26 @@ atacar() {
 }
 ```
 
-### 4.4 Clases auxiliares (`Gema`, `Bandera`)
+### 4.4 Coleccionables (`Llave`, `Corazon`, `Moneda`)
 
 Son envoltorios delgados de `Phaser.Physics.Arcade.Sprite` que únicamente
-desactivan la gravedad (`body.allowGravity = false`) y, en el caso de
-`Gema`, guardan metadatos (`tipo`, `valor`, `total`) usados después por la
-escena para puntuar y para detectar cuándo se han recogido todas las gemas
-de un color.
+desactivan la gravedad (`body.allowGravity = false`):
+
+- **`Llave`**: guarda un atributo `tipo` (valor del enum `KeyType`). La
+  escena la usa en `cogeLlave()` para decidir qué muro destruir.
+- **`Corazon`**: cura 1 punto al jugador al ser recogido (si no está al
+  máximo de vida) y se destruye.
+- **`Moneda`**: incrementa el marcador de puntos.
+
+### 4.5 Audio
+
+La escena carga tres ficheros de audio en `preload()` y los usa así:
+
+- `musica-fondo`: `sound.add(... loop: true, volume: 0.3).play()` al
+  arrancar la escena.
+- `enemy-dead-sound`: se reproduce dentro de `checkAgainstEnemies` al
+  derrotar a un enemigo.
+- `hurt-sound`: se reproduce cuando el jugador recibe daño.
 
 ---
 
@@ -243,20 +344,21 @@ de un color.
 > _Pendiente de añadir capturas reales del juego en ejecución._
 >
 > Capturas recomendadas:
-> 1. Pantalla inicial / primer tramo del nivel con Foxy y las primeras gemas.
-> 2. HUD con varias gemas recogidas y al menos una llave obtenida (muro
->    desaparecido).
-> 3. Momento de ataque (animación de *roll*).
-> 4. Momento de recibir daño (parpadeo).
-> 5. Pantalla final con la bandera y el mensaje *YOU WIN*.
+> 1. Pantalla inicial / primer tramo del nivel con Foxy y los corazones del HUD.
+> 2. HUD con al menos una llave recogida (muro desbloqueado).
+> 3. Foxy ejecutando el *roll* contra un enemigo.
+> 4. Foxy recibiendo daño (parpadeo + knockback).
+> 5. Foxy recogiendo un corazón (HUD se rellena).
+> 6. Pantalla de *GAME OVER*.
 
 | # | Captura | Descripción |
 |---|---------|-------------|
 | 1 | _(añadir)_ | Inicio del nivel |
-| 2 | _(añadir)_ | HUD con gemas y llaves |
-| 3 | _(añadir)_ | Foxy ejecutando el roll |
+| 2 | _(añadir)_ | HUD con llaves recogidas |
+| 3 | _(añadir)_ | Foxy ejecutando el roll sobre un enemigo |
 | 4 | _(añadir)_ | Foxy recibiendo daño |
-| 5 | _(añadir)_ | Pantalla de victoria |
+| 5 | _(añadir)_ | Foxy recogiendo un corazón |
+| 6 | _(añadir)_ | Pantalla de Game Over |
 
 ---
 
@@ -277,6 +379,10 @@ Y abrir en el navegador `http://localhost:8000/index.html`.
 
 Alternativas equivalentes: extensión *Live Server* de VS Code,
 `npx http-server`, etc.
+
+> ⚠️ Nota: la extensión **Live Preview** de VS Code puede ocultar errores
+> reales de JavaScript. Si algo no funciona, abre la URL en Chrome y revisa
+> la consola (F12) directamente.
 
 ### En la Web
 
