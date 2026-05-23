@@ -17,7 +17,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
             derecha:   Phaser.Input.Keyboard.KeyCodes.D,
             salto:     Phaser.Input.Keyboard.KeyCodes.SPACE,
             saltoW:    Phaser.Input.Keyboard.KeyCodes.W,
-            ataque:    Phaser.Input.Keyboard.KeyCodes.S
+            ataque:    Phaser.Input.Keyboard.KeyCodes.S,
         });
 
         // ----- Parámetros -----
@@ -80,6 +80,16 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         if (!this.atacando) {
             this.gestionarMovimiento();
             this.gestionarSalto();
+        }
+
+
+        const arriba = this.cursors.up.isDown  || this.teclas.saltoW.isDown;
+        if (arriba){
+            let puerta = this.escena.puerta.getTileAtWorldXY(this.x, this.y);
+
+            if (puerta) {
+                this.escena.events.emit('finaliza-nivel');
+            }
         }
 
         if (Phaser.Input.Keyboard.JustDown(this.teclas.ataque) && this.puedeAtacar) {

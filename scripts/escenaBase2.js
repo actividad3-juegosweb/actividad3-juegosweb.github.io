@@ -93,6 +93,9 @@ export default class EscenaBase extends Phaser.Scene {
         this.muroAzul = this.mapa.createLayer('blueLock', this.tileset, 0, 0);
         this.muroNaranja = this.mapa.createLayer('orangeLock', this.tileset, 0, 0);
 
+        // CARGA LA PUERTA FIN DE NIVEL //
+        this.puerta = this.mapa.createLayer('door', this.tileset, 0, 0);
+
         // COLISIONES TILEMAP //
         this.solid.setCollisionByExclusion(-1, true);
 
@@ -101,7 +104,6 @@ export default class EscenaBase extends Phaser.Scene {
 
         // CREAR PLAYER //
         this.player = new Player(this,850, 390);
-
 
         // COLISION PLAYER CON SUELO //
         this.physics.add.collider(this.player, this.solid);
@@ -231,6 +233,25 @@ export default class EscenaBase extends Phaser.Scene {
                     fontSize: '80px',
                     fontStyle: 'bold',
                     color: '#f33'
+                }
+            )
+            .setOrigin(0.5)
+            .setScrollFactor(0);
+        });
+
+
+        // EVENTO FINALIZA NIVEL //
+        this.events.on('finaliza-nivel', () => {
+            this.player.destroy();
+            this.add.text(this.cameras.main.centerX,this.cameras.main.centerY,'HAS GANADO',
+                {
+                    fontSize: '70px',
+                    fontStyle: 'bold',
+                    color: 'rgb(16, 151, 72)',
+                    'justify-content': 'center',
+                    'align-items': 'center',
+                    stroke: '#202020',      // Color del borde (en este caso, rojo)
+                    strokeThickness: 4  
                 }
             )
             .setOrigin(0.5)
