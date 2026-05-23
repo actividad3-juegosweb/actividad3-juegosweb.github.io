@@ -223,7 +223,7 @@ export default class EscenaBase extends Phaser.Scene {
        this.enemies.add(new Eagle(this, 1550,560));
 
        this.cameras.main.startFollow(this.player);
-       //this.cameras.main.setZoom(4);
+       this.cameras.main.setZoom(4);
        this.cameras.main.setBounds(0,0,
        this.mapa.widthInPixels,this.mapa.heightInPixels);
 
