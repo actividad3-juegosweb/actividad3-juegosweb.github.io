@@ -1,4 +1,6 @@
 import Player from './player.js';
+import Llave from './llave.js';
+import KeyType from './keyType.js'
 import Opossum from './enemies/Opossum.js';
 import Eagle from './enemies/Eagle.js';
 import Frog from './enemies/Frog.js';
@@ -12,6 +14,16 @@ export default class EscenaBase extends Phaser.Scene {
         this.load.image('tilesheet1','assets/back.png');
         this.load.image('tilesheet2','assets/house.png');
         this.load.tilemapTiledJSON('map','assets/map.json');
+
+        // CARGA IMAGENES DE OBJETOS //
+        this.load.image('llaveAmarilla', 'assets/icons/keyYellow.png');
+        this.load.image('llaveVerde', 'assets/icons/keyGreen.png');
+        this.load.image('llaveRoja', 'assets/icons/keyRed.png');
+        this.load.image('llaveAzul', 'assets/icons/keyBlue.png');
+        this.load.image('llaveNaranja', 'assets/icons/orangeKey.png');
+        this.load.image('corazonLleno', 'assets/icons/heartFull.png');
+        this.load.image('corazonVacio', 'assets/icons/heartEmpty.png');
+
 
         // CARGAR ANIMACIONES PLAYER //
         const baseFoxy = 'assets/sunny/Characters/Foxy/Sprites';
@@ -66,7 +78,15 @@ export default class EscenaBase extends Phaser.Scene {
         this.platforms = this.mapa.createLayer('platforms', this.tileset, 0, 0);
         this.foreground = this.mapa.createLayer('foreground', this.tileset, 0, 0);
         this.casa = this.mapa.createLayer('casa', this.tileset2, 0, 0);
-        this.unlockables = this.mapa.createLayer('unlockables', this.tileset, 0, 0);
+       // this.unlockables = this.mapa.createLayer('unlockables', this.tileset, 0, 0);
+
+         // CARGA MUROS DESBLOQUEABLES //
+        this.muroAmarillo = this.mapa.createLayer('yellowLock', this.tileset, 0, 0);
+        this.muroVerde = this.mapa.createLayer('greenLock', this.tileset, 0, 0);
+        this.muroRojo = this.mapa.createLayer('redLock', this.tileset, 0, 0);
+        this.muroAzul = this.mapa.createLayer('blueLock', this.tileset, 0, 0);
+        this.muroNaranja = this.mapa.createLayer('orangeLock', this.tileset, 0, 0);
+
         // COLISIONES TILEMAP //
         this.solid.setCollisionByExclusion(-1, true);
 
@@ -78,6 +98,18 @@ export default class EscenaBase extends Phaser.Scene {
 
         // COLISION PLAYER CON SUELO //
         this.physics.add.collider(this.player, this.solid);
+
+        // COLISION PLAYER CON MUROS DESBLOQUEABLES //
+        this.muroAmarillo.setCollisionByExclusion(-1, true);
+        this.colliderAmarillo = this.physics.add.collider(this.player, this.muroAmarillo);
+        this.muroVerde.setCollisionByExclusion(-1, true);
+        this.colliderVerde = this.physics.add.collider(this.player, this.muroVerde);
+        this.muroRojo.setCollisionByExclusion(-1, true);
+        this.colliderRojo = this.physics.add.collider(this.player, this.muroRojo);
+        this.muroAzul.setCollisionByExclusion(-1, true);
+        this.colliderAzul = this.physics.add.collider(this.player, this.muroAzul);
+        this.muroNaranja.setCollisionByExclusion(-1, true);
+        this.colliderNaranja = this.physics.add.collider(this.player, this.muroNaranja);
 
         // PLATAFORMAS ATRAVESABLES POR ABAJO //
         this.physics.add.collider(
@@ -172,6 +204,164 @@ export default class EscenaBase extends Phaser.Scene {
             .setOrigin(0.5)
             .setScrollFactor(0);
         });
+
+        
+
+
+        // OBJETOS COLECIONABLES //
+        if (this.mapa.getObjectLayer('yellowKey')!=null){
+            this.objetos = this.mapa.getObjectLayer('yellowKey').objects;
+            this.totalAzul = this.objetos.length;
+            this.objetos.forEach(objeto => {
+                this.llave = new Llave(this, objeto.x, objeto.y, 'llaveAmarilla', KeyType.Yellow)
+                this.physics.add.collider(this.llave, this.solid);
+            
+                // para recoger la llave
+                this.physics.add.collider(this.llave, this.player, this.cogeLlave, null, this);
+            })
+        } else {
+            console.log('No hay capa de llave amarilla');
+        }
+
+        if (this.mapa.getObjectLayer('greenKey')!=null){
+            this.objetos = this.mapa.getObjectLayer('greenKey').objects;
+            this.totalAzul = this.objetos.length;
+            this.objetos.forEach(objeto => {
+                this.llave = new Llave(this, objeto.x, objeto.y, 'llaveVerde', KeyType.Green)
+                this.physics.add.collider(this.llave, this.solid);
+            
+                // para recoger la llave
+                this.physics.add.collider(this.llave, this.player, this.cogeLlave, null, this);
+            })
+        } else {
+            console.log('No hay capa de llave verde');
+        }
+
+        if (this.mapa.getObjectLayer('redKey')!=null){
+            this.objetos = this.mapa.getObjectLayer('redKey').objects;
+            this.totalAzul = this.objetos.length;
+            this.objetos.forEach(objeto => {
+                this.llave = new Llave(this, objeto.x, objeto.y, 'llaveRoja', KeyType.Red)
+                this.physics.add.collider(this.llave, this.solid);
+            
+                // para recoger la llave
+                this.physics.add.collider(this.llave, this.player, this.cogeLlave, null, this);
+            })
+        } else {
+            console.log('No hay capa de llave roja');
+        }
+
+        if (this.mapa.getObjectLayer('blueKey')!=null){
+            this.objetos = this.mapa.getObjectLayer('blueKey').objects;
+            this.totalAzul = this.objetos.length;
+            this.objetos.forEach(objeto => {
+                this.llave = new Llave(this, objeto.x, objeto.y, 'llaveAzul', KeyType.Yellow)
+                this.physics.add.collider(this.llave, this.solid);
+            
+                // para recoger la llave
+                this.physics.add.collider(this.llave, this.player, this.cogeLlave, null, this);
+            })
+        } else {
+            console.log('No hay capa de llave azul');
+        }
+
+        if (this.mapa.getObjectLayer('orangeKey')!=null){
+            this.objetos = this.mapa.getObjectLayer('orangeKey').objects;
+            this.totalAzul = this.objetos.length;
+            this.objetos.forEach(objeto => {
+                this.llave = new Llave(this, objeto.x, objeto.y, 'llaveNaranja', KeyType.Yellow)
+                this.physics.add.collider(this.llave, this.solid);
+            
+                // para recoger la llave
+                this.physics.add.collider(this.llave, this.player, this.cogeLlave, null, this);
+            })
+        } else {
+            console.log('No hay capa de llave naranja');
+        }
+
+
+        // HUD //850, 390);
+        // Marcador de llaves
+
+        this.txtMarcador = this.add.text(1322, 375, "1234");
+        this.txtMarcador.setFontSize(20);
+        this.txtMarcador.setStyle({
+            fontStyle: 'bold italic',
+            stroke: '#202020',      // Color del borde (en este caso, rojo)
+            strokeThickness: 4  
+        });
+        this.txtMarcador.setFill('#f9f9f9');
+        this.txtMarcador.setScrollFactor(0); // evitar que se mueva
+
+        // Corazones
+        this.corazon1 = this.add.image(840,385,'corazonLleno');
+        this.corazon1.setScale(1); // duplicamos el tamaño
+        this.corazon1.setScrollFactor(0); // evitar que se mueva
+        this.corazon2 = this.add.image(860,385,'corazonLleno');
+        this.corazon2.setScale(1); // duplicamos el tamaño
+        this.corazon2.setScrollFactor(0); // evitar que se mueva
+        this.corazon3 = this.add.image(880,385,'corazonLleno');
+        this.corazon3.setScale(1); // duplicamos el tamaño
+        this.corazon3.setScrollFactor(0); // evitar que se mueva
+
+        // EVENTO JUGADOR RECIVE DAÑO //
+        this.events.on('jugador-dano', (vida) => {
+            if (vida<3) {
+                this.corazon3.setTexture('corazonVacio');
+            }
+            if (vida <2){
+                this.corazon2.setTexture('corazonVacio');
+            }
+            if (vida <1){
+                this.corazon1.setTexture('corazonVacio');
+            }
+        });
+
+    }
+
+    cogeLlave(llave, jugador){
+        llave.destroy(true);
+
+        switch (llave.tipo) {
+            case KeyType.Yellow:
+                this.colliderAmarillo.destroy();
+                this.muroAmarillo.destroy();
+                this.imagenLlaveAmarilla = this.add.image(1360,403,'llaveAmarilla');
+                this.imagenLlaveAmarilla.setScale(1); // duplicamos el tamaño
+                this.imagenLlaveAmarilla.setScrollFactor(0); // evitar que se mueva
+                break;
+            case KeyType.Green:
+                this.colliderVerde.destroy();
+                this.muroVerde.destroy();
+                this.imageLlaveVerde = this.add.image(1360,423,'llaveVerde');
+                this.imageLlaveVerde.setScale(1); // duplicamos el tamaño
+                this.imageLlaveVerde.setScrollFactor(0); // evitar que se mueva
+                break;
+            case KeyType.Red:
+                this.colliderRojo.destroy();
+                this.muroRojo.destroy();
+                this.imageLlaveRoja = this.add.image(1360,443,'llaveRoja');
+                this.imageLlaveRoja.setScale(1); // duplicamos el tamaño
+                this.imageLlaveRoja.setScrollFactor(0); // evitar que se mueva
+                break;
+            case KeyType.Blue:
+                this.colliderAzul.destroy();
+                this.muroAzul.destroy();
+                this.imageLlaveAzul = this.add.image(1360,463,'llaveAzul');
+                this.imageLlaveAzul.setScale(1); // duplicamos el tamaño
+                this.imageLlaveAzul.setScrollFactor(0); // evitar que se mueva
+                break;
+            case KeyType.Orange:
+                this.colliderNaranja.destroy();
+                this.muroNaranja.destroy();
+                this.imageLlaveNaranja = this.add.image(1360,483,'llaveNaranja');
+                this.imageLlaveNaranja.setScale(1); // duplicamos el tamaño
+                this.imageLlaveNaranja.setScrollFactor(0); // evitar que se mueva
+                break;
+
+            default:
+                break;
+        }
     }
 
     update(){
