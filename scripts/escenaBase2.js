@@ -6,6 +6,8 @@ import CoinType from './objects/coinType.js'
 import Opossum from './enemies/Opossum.js';
 import Eagle from './enemies/Eagle.js';
 import Frog from './enemies/Frog.js';
+import Corazon from './life.js';
+
 
 export default class EscenaBase extends Phaser.Scene {
 
@@ -219,7 +221,7 @@ export default class EscenaBase extends Phaser.Scene {
        this.enemies.add(new Eagle(this, 1550,560));
 
        this.cameras.main.startFollow(this.player);
-       this.cameras.main.setZoom(4);
+       //this.cameras.main.setZoom(4);
        this.cameras.main.setBounds(0,0,
        this.mapa.widthInPixels,this.mapa.heightInPixels);
 
@@ -361,6 +363,21 @@ export default class EscenaBase extends Phaser.Scene {
         this.txtMarcador.setFill('#f9f9f9');
         this.txtMarcador.setScrollFactor(0); // evitar que se mueva
 
+        // ---- PARTE 2: CORAZONES RECOLECTABLES ----
+        this.corazones = this.add.group();
+        
+        [[620, 570],].forEach(([x, y]) => {
+            const c = new Corazon(this, x, y);
+            this.physics.add.collider(c, this.solid);
+            this.corazones.add(c);
+        });
+
+        this.physics.add.overlap(this.player, this.corazones, (player, corazon) => {
+            if (player.vida >= player.vidaMax) return;
+            player.curar(1);
+            corazon.destroy();
+        });
+
         // Corazones
         this.corazon1 = this.add.image(840,385,'corazonLleno');
         this.corazon1.setScale(1); // duplicamos el tamaño
@@ -373,7 +390,7 @@ export default class EscenaBase extends Phaser.Scene {
         this.corazon3.setScrollFactor(0); // evitar que se mueva
 
         // EVENTO JUGADOR RECIVE DAÑO //
-        this.events.on('jugador-dano', (vida) => {
+        /*this.events.on('jugador-dano', (vida) => {
             if (vida<3) {
                 this.corazon3.setTexture('corazonVacio');
             }
@@ -383,6 +400,13 @@ export default class EscenaBase extends Phaser.Scene {
             if (vida <1){
                 this.corazon1.setTexture('corazonVacio');
             }
+        });*/
+        // EVENTO CAMBIO DE VIDA (daño o curación) //
+        this.events.on('jugador-vida-cambio', (vida) => 
+        {
+            this.corazon1.setTexture(vida >= 1 ? 'corazonLleno' : 'corazonVacio');
+            this.corazon2.setTexture(vida >= 2 ? 'corazonLleno' : 'corazonVacio');
+            this.corazon3.setTexture(vida >= 3 ? 'corazonLleno' : 'corazonVacio');
         });
 
     }

@@ -158,6 +158,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         });
 
         this.escena.events.emit('jugador-dano', this.vida);
+        this.escena.events.emit('jugador-vida-cambio', this.vida); 
+        
 
         if (this.vida <= 0) { this.morir(); return; }
 
@@ -165,6 +167,12 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
             this.invulnerable = false;
             this.alpha = 1;
         });
+    }
+
+    curar(cantidad=1) {
+        if (this.muerto) return;
+        this.vida = Math.min(this.vida + cantidad, this.vidaMax);
+        this.escena.events.emit('jugador-vida-cambio', this.vida);
     }
 
     morir() {
