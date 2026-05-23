@@ -132,9 +132,9 @@
 <table>
     <thead><tr><th>Asset</th><th>Origen / autoría</th><th>Uso</th></tr></thead>
     <tbody>
-        <tr><td><code>assets/sunny/Characters/Foxy/</code></td><td>Sunnyland (Ansimuz, CC0)</td><td>Sprites del protagonista (idle, run, jump, hurt, Roll).</td></tr>
-        <tr><td><code>assets/sunny/environment/</code></td><td>Sunnyland</td><td>Tilesets y props decorativos.</td></tr>
-        <tr><td><code>assets/sunny/Misc/</code></td><td>Sunnyland</td><td>Efectos visuales e ítems extra.</td></tr>
+        <tr><td><code>assets/sunny/Characters/Foxy/</code></td><td>Sunny Land — <em>ansimuz</em> (CC0 1.0 Universal)</td><td>Sprites del protagonista (idle, run, jump, hurt, Roll).</td></tr>
+        <tr><td><code>assets/sunny/environment/</code></td><td>Sunny Land — <em>ansimuz</em> (CC0 1.0)</td><td>Tilesets y props decorativos.</td></tr>
+        <tr><td><code>assets/sunny/Misc/</code></td><td>Sunny Land — <em>ansimuz</em> (CC0 1.0)</td><td>Efectos visuales e ítems extra.</td></tr>
         <tr><td><code>assets/tiles.png</code>, <code>assets/mapa.json</code></td><td>Material de la asignatura / Tiled</td><td>Mapa principal del nivel.</td></tr>
         <tr><td><code>gem_*.png</code>, <code>key_*.png</code>, <code>flag.png</code>, <code>coin_gold.png</code></td><td>Material de la asignatura</td><td>Coleccionables, llaves, meta y HUD.</td></tr>
         <tr><td><code>phaser.min.js</code> (CDN)</td><td>Phaser Studio (MIT)</td><td>Motor del juego.</td></tr>
@@ -142,9 +142,17 @@
 </table>
 
 <blockquote>
-    <strong>Nota sobre licencias:</strong> todos los recursos gráficos externos pertenecen al
-    pack <em>Sunnyland</em> de Ansimuz (distribución libre); Phaser se distribuye bajo licencia MIT.
-    No se han incorporado recursos protegidos por derechos de autor.
+    <strong>Nota sobre licencias.</strong>
+    El pack gráfico <strong>Sunny Land</strong>, obra de <em>ansimuz</em>, se distribuye bajo
+    licencia <strong>Creative Commons Zero v1.0 Universal (CC0 1.0)</strong>. Esta licencia
+    equivale a dominio público: permite <strong>usar, modificar, redistribuir e incluso
+    explotar comercialmente la obra sin necesidad de atribución</strong> (<em>“No Rights
+    Reserved”</em>). Aun así, como buena práctica académica, en este trabajo se acredita
+    expresamente al autor en este apartado y en la webgrafía (sección 9).
+    <br><br>
+    El motor <strong>Phaser 3</strong> se distribuye bajo licencia <strong>MIT</strong> (uso,
+    copia y modificación libres conservando el aviso de copyright). No se han incorporado
+    en el proyecto recursos protegidos por derechos de autor.
 </blockquote>
 
 <h2>4. Descripción del código relevante</h2>
@@ -261,9 +269,66 @@ python3 -m http.server 8000</pre>
     [En 1-2 párrafos, el grupo puede comentar las dificultades encontradas, qué se ha
     aprendido del trabajo con Phaser, decisiones de diseño relevantes (ataque como
     <em>roll</em>, sistema de eventos para desacoplar <code>Player</code> de la escena,
-    elección de Sunnyland como pack gráfico) y posibles mejoras futuras (más niveles,
+    elección de Sunny Land como pack gráfico) y posibles mejoras futuras (más niveles,
     enemigos con IA, sonido, menú principal, etc.).]
 </p>
+
+<h2>9. Webgrafía y referencias</h2>
+
+<h3>Recursos gráficos</h3>
+<ul>
+    <li>
+        <strong>ansimuz</strong> (s. f.). <em>Sunny Land — Pixel Game Art</em>. itch.io.
+        Disponible en
+        <a href="https://ansimuz.itch.io/sunny-land-pixel-game-art">https://ansimuz.itch.io/sunny-land-pixel-game-art</a>.
+        Licencia: <strong>Creative Commons Zero v1.0 Universal (CC0 1.0)</strong>.
+        Texto legal completo:
+        <a href="https://creativecommons.org/publicdomain/zero/1.0/">https://creativecommons.org/publicdomain/zero/1.0/</a>.
+    </li>
+</ul>
+
+<blockquote>
+    <strong>Resumen de la licencia CC0 1.0 (extracto oficial):</strong><br>
+    <em>“The person who associated a work with this deed has dedicated the work to the
+    public domain by waiving all of his or her rights to the work worldwide under
+    copyright law, including all related and neighboring rights, to the extent allowed
+    by law. You can copy, modify, distribute and perform the work, even for commercial
+    purposes, all without asking permission.”</em><br><br>
+    <strong>Traducción no oficial:</strong> la persona que ha asociado su obra a esta
+    licencia la cede al dominio público renunciando, en la medida que permite la ley,
+    a todos sus derechos de autor y derechos conexos en todo el mundo. Por tanto se
+    puede <strong>copiar, modificar, distribuir e interpretar la obra, incluso con fines
+    comerciales, sin pedir permiso</strong>. No se exige atribución, aunque se considera
+    buena práctica reconocer la autoría.
+</blockquote>
+
+<h3>Software y librerías</h3>
+<ul>
+    <li>
+        <strong>Phaser 3</strong> (Photon Storm / Phaser Studio). Motor de videojuegos
+        2D para HTML5. Licencia <strong>MIT</strong>.
+        Sitio oficial: <a href="https://phaser.io/">https://phaser.io/</a> ·
+        Documentación: <a href="https://docs.phaser.io/">https://docs.phaser.io/</a>.
+        CDN usado:
+        <a href="https://cdn.jsdelivr.net/npm/phaser@v3.90.0/dist/phaser.min.js">https://cdn.jsdelivr.net/npm/phaser@v3.90.0/dist/phaser.min.js</a>.
+    </li>
+    <li>
+        <strong>Tiled Map Editor</strong> (Thorbjørn Lindeijer). Editor de mapas usado
+        para generar <code>mapa.json</code>. Licencia GPLv2+ (la aplicación; los mapas
+        exportados pertenecen a sus autores).
+        <a href="https://www.mapeditor.org/">https://www.mapeditor.org/</a>.
+    </li>
+</ul>
+
+<h3>Documentación consultada</h3>
+<ul>
+    <li><em>Phaser 3 API Documentation</em>.
+        <a href="https://docs.phaser.io/api-documentation/api-documentation">https://docs.phaser.io/api-documentation/api-documentation</a>.</li>
+    <li><em>Phaser 3 Examples</em>.
+        <a href="https://phaser.io/examples/v3">https://phaser.io/examples/v3</a>.</li>
+    <li>MDN Web Docs — <em>JavaScript modules</em>.
+        <a href="https://developer.mozilla.org/es/docs/Web/JavaScript/Guide/Modules">https://developer.mozilla.org/es/docs/Web/JavaScript/Guide/Modules</a>.</li>
+</ul>
 
 </body>
 </html>

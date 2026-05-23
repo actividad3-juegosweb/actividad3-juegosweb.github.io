@@ -107,17 +107,25 @@ actividad3-juegosweb.github.io/
 
 | Asset                                | Origen / autoría                                          | Uso |
 |--------------------------------------|-----------------------------------------------------------|-----|
-| `assets/sunny/Characters/Foxy/`      | **Sunnyland** (Ansimuz, licencia CC0) — pack libre        | Sprites del protagonista (idle, run, jump, hurt, Roll). |
-| `assets/sunny/environment/`          | Sunnyland                                                 | Tilesets y props decorativos. |
-| `assets/sunny/Misc/`                 | Sunnyland                                                 | Efectos visuales e ítems extra. |
+| `assets/sunny/Characters/Foxy/`      | **Sunny Land** — *ansimuz* (CC0 1.0 Universal)            | Sprites del protagonista (idle, run, jump, hurt, Roll). |
+| `assets/sunny/environment/`          | Sunny Land — *ansimuz* (CC0 1.0)                          | Tilesets y props decorativos. |
+| `assets/sunny/Misc/`                 | Sunny Land — *ansimuz* (CC0 1.0)                          | Efectos visuales e ítems extra. |
 | `assets/tiles.png`, `assets/mapa.json`| Material de la asignatura / elaboración propia con Tiled | Mapa principal del nivel. |
 | `assets/gem_*.png`, `assets/key_*.png`, `assets/flag.png`, `assets/coin_gold.png` | Material de la asignatura | Coleccionables, llaves, meta y HUD. |
 | `phaser.min.js` (CDN)                | Phaser Studio — licencia MIT                              | Motor del juego. |
 
-> **Nota sobre licencias:** todos los recursos gráficos externos pertenecen al
-> pack *Sunnyland* de Ansimuz, distribuido bajo licencia gratuita; Phaser se
-> distribuye bajo licencia MIT. No se han incorporado recursos protegidos por
-> derechos de autor.
+> **Nota sobre licencias:**
+> El pack gráfico **Sunny Land**, obra de *ansimuz*, se distribuye bajo
+> licencia **Creative Commons Zero v1.0 Universal (CC0 1.0)**. Esta licencia
+> equivale a dominio público: permite **usar, modificar, redistribuir e
+> incluso explotar comercialmente la obra sin necesidad de atribución**
+> (*“No Rights Reserved”*). Aun así, como buena práctica académica, en este
+> trabajo se acredita expresamente al autor en este apartado y en la
+> webgrafía (sección 9).
+>
+> El motor **Phaser 3** se distribuye bajo licencia **MIT** (uso, copia y
+> modificación libres conservando el aviso de copyright). No se han
+> incorporado en el proyecto recursos protegidos por derechos de autor.
 
 ---
 
@@ -292,6 +300,53 @@ Alternativas equivalentes: extensión *Live Server* de VS Code,
 [Aquí, en 1-2 párrafos, el grupo puede comentar las dificultades encontradas,
 qué se ha aprendido del trabajo con Phaser, decisiones de diseño relevantes
 (por ejemplo, el ataque como *roll* en lugar de proyectil, el sistema de
-eventos para desacoplar `Player` de la escena, la elección de Sunnyland como
+eventos para desacoplar `Player` de la escena, la elección de Sunny Land como
 pack gráfico) y posibles mejoras futuras (más niveles, enemigos con IA,
 sonido, menú principal…).]
+
+---
+
+## 9. Webgrafía y referencias
+
+### Recursos gráficos
+
+- **ansimuz** (s. f.). *Sunny Land — Pixel Game Art*. itch.io.
+  Disponible en: <https://ansimuz.itch.io/sunny-land-pixel-game-art>
+  Licencia: **Creative Commons Zero v1.0 Universal (CC0 1.0)**.
+  Texto legal completo: <https://creativecommons.org/publicdomain/zero/1.0/>
+
+  > Resumen de la licencia CC0 1.0 (extracto oficial):
+  > *“The person who associated a work with this deed has dedicated the
+  > work to the public domain by waiving all of his or her rights to the
+  > work worldwide under copyright law, including all related and
+  > neighboring rights, to the extent allowed by law. You can copy,
+  > modify, distribute and perform the work, even for commercial
+  > purposes, all without asking permission.”*
+  >
+  > Traducción no oficial: la persona que ha asociado su obra a esta
+  > licencia la cede al dominio público renunciando, en la medida que
+  > permite la ley, a todos sus derechos de autor y derechos conexos en
+  > todo el mundo. Por tanto se puede **copiar, modificar, distribuir e
+  > interpretar la obra, incluso con fines comerciales, sin pedir
+  > permiso**. No se exige atribución, aunque se considera buena
+  > práctica reconocer la autoría.
+
+### Software y librerías
+
+- **Phaser 3** (Photon Storm / Phaser Studio). Motor de videojuegos 2D
+  para HTML5. Licencia **MIT**.
+  Sitio oficial: <https://phaser.io/>
+  Documentación: <https://docs.phaser.io/>
+  CDN usado: <https://cdn.jsdelivr.net/npm/phaser@v3.90.0/dist/phaser.min.js>
+
+- **Tiled Map Editor** (Thorbjørn Lindeijer). Editor de mapas usado para
+  generar `mapa.json`. Licencia GPLv2+ (la aplicación; los mapas
+  exportados pertenecen a sus autores).
+  <https://www.mapeditor.org/>
+
+### Documentación consultada
+
+- *Phaser 3 API Documentation*. <https://docs.phaser.io/api-documentation/api-documentation>
+- *Phaser 3 Examples*. <https://phaser.io/examples/v3>
+- *MDN Web Docs — JavaScript modules*.
+  <https://developer.mozilla.org/es/docs/Web/JavaScript/Guide/Modules>
