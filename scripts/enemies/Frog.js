@@ -33,7 +33,6 @@ export default class Frog extends Phaser.Physics.Arcade.Sprite {
             this.body.setVelocityY(-370);
             this.body.setVelocityX(90);
         } else if (this.body.onFloor() && this.body.velocity.y == 0) {
-            console.log("on floor");
             this.body.setVelocityX(0); // Al tocar suelo se detiene en seco
         }
 
