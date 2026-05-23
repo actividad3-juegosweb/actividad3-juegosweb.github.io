@@ -246,7 +246,7 @@ export default class EscenaBase extends Phaser.Scene {
                 this.physics.add.collider(this.llave, this.solid);
             
                 // para recoger la llave
-                this.physics.add.collider(this.llave, this.player, this.cogeLlave, null, this);
+                this.physics.add.overlap(this.llave, this.player, this.cogeLlave, null, this);
             })
         } else {
             console.log('No hay capa de llave amarilla');
@@ -259,7 +259,7 @@ export default class EscenaBase extends Phaser.Scene {
                 this.physics.add.collider(this.llave, this.solid);
             
                 // para recoger la llave
-                this.physics.add.collider(this.llave, this.player, this.cogeLlave, null, this);
+                this.physics.add.overlap(this.llave, this.player, this.cogeLlave, null, this);
             })
         } else {
             console.log('No hay capa de llave verde');
@@ -272,7 +272,7 @@ export default class EscenaBase extends Phaser.Scene {
                 this.physics.add.collider(this.llave, this.solid);
             
                 // para recoger la llave
-                this.physics.add.collider(this.llave, this.player, this.cogeLlave, null, this);
+                this.physics.add.overlap(this.llave, this.player, this.cogeLlave, null, this);
             })
         } else {
             console.log('No hay capa de llave roja');
@@ -285,7 +285,7 @@ export default class EscenaBase extends Phaser.Scene {
                 this.physics.add.collider(this.llave, this.solid);
             
                 // para recoger la llave
-                this.physics.add.collider(this.llave, this.player, this.cogeLlave, null, this);
+                this.physics.add.overlap(this.llave, this.player, this.cogeLlave, null, this);
             })
         } else {
             console.log('No hay capa de llave azul');
@@ -298,7 +298,7 @@ export default class EscenaBase extends Phaser.Scene {
                 this.physics.add.collider(this.llave, this.solid);
             
                 // para recoger la llave
-                this.physics.add.collider(this.llave, this.player, this.cogeLlave, null, this);
+                this.physics.add.overlap(this.llave, this.player, this.cogeLlave, null, this);
             })
         } else {
             console.log('No hay capa de llave naranja');
@@ -312,7 +312,7 @@ export default class EscenaBase extends Phaser.Scene {
                 this.physics.add.collider(this.moneda, this.solid);
             
                 // para recoger la llave
-                this.physics.add.collider(this.moneda, this.player, this.cogeMoneda, null, this);
+                this.physics.add.overlap(this.moneda, this.player, this.cogeMoneda, null, this);
             })
         } else {
             console.log('No hay capa de monedas de bornce');
@@ -326,7 +326,7 @@ export default class EscenaBase extends Phaser.Scene {
                 this.physics.add.collider(this.moneda, this.solid);
             
                 // para recoger la llave
-                this.physics.add.collider(this.moneda, this.player, this.cogeMoneda, null, this);
+                this.physics.add.overlap(this.moneda, this.player, this.cogeMoneda, null, this);
             })
         } else {
             console.log('No hay capa de monedas de bornce');
@@ -340,7 +340,7 @@ export default class EscenaBase extends Phaser.Scene {
                 this.physics.add.collider(this.moneda, this.solid);
             
                 // para recoger la llave
-                this.physics.add.collider(this.moneda, this.player, this.cogeMoneda, null, this);
+                this.physics.add.overlap(this.moneda, this.player, this.cogeMoneda, null, this);
             })
         } else {
             console.log('No hay capa de monedas de bornce');
@@ -568,6 +568,11 @@ export default class EscenaBase extends Phaser.Scene {
             this.sound.play('enemy-dead-sound', {
                 volume: 0.2
             });
+
+            // AÑADIR PUNTOS //
+            this.puntosTotales = this.puntosTotales + 10;
+            this.txtMarcador.text = String(this.puntosTotales).padStart(4,'0')
+
 
             // DESTRUIR ENEMIGO //
             enemy.destroy();
