@@ -522,6 +522,15 @@ Recursos de audio
     no exige atribución (aunque se agradece).
     Más información: https://pixabay.com/service/license-summary/
 
+  Pixabay — Sound Effects "dano y explosion". Banco de SFX libres.
+    URL: https://pixabay.com/es/sound-effects/search/explosion%20retro/
+	 https://pixabay.com/es/sound-effects/search/hurt%20retro/
+    Licencia: Pixabay License — permite uso comercial y privado,
+    no exige atribución (aunque se agradece).
+    Más información: https://pixabay.com/service/license-summary/
+
+
+
 
 Software y librerías
 --------------------
