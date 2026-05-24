@@ -2,9 +2,9 @@
 
 **Asignatura:** Videojuegos para la web
 **Integrantes del grupo:** Víctor González, Carlos Díez, Aike Fernández, Kevin Peciña
-**URL del juego publicado:** [PENDIENTE — añadir cuando se publique en GitHub Pages]
-**Repositorio:** [URL del repositorio]
-**Vídeo de gameplay:** [opcional — URL de YouTube/Drive]
+**URL del juego publicado:** https://actividad3-juegosweb.github.io/
+**Repositorio:** https://github.com/actividad3-juegosweb/actividad3-juegosweb.github.io
+**Vídeo de gameplay:** https://drive.google.com/file/d/1LRFTUfkhLbcJ7LTRhNzvV9A966yzl62M/view?usp=drive_link
 
 ---
 
@@ -148,7 +148,8 @@ actividad3-juegosweb.github.io/
 | `assets/icons/keyYellow/Green/Red/Blue.png`, `orangeKey.png` | Material de la asignatura                                 | Llaves coleccionables y HUD. |
 | `assets/icons/coinGold/Silver/Bronze.png` | Material de la asignatura                                | Monedas coleccionables. |
 | `assets/audio/musica.mp3`              | [PENDIENTE — indicar autoría/licencia]                      | Música de fondo en loop. |
-| `assets/audio/sonido-dano.mp3`, `sonido-explosion.mp3`, `sonido-moneda.mp3` | [PENDIENTE — indicar autoría/licencia]                      | Efectos de sonido. |
+| `assets/audio/sonido-moneda.mp3`       | **Pixabay** — efecto descargado de [pixabay.com/es/sound-effects/search/coin/](https://pixabay.com/es/sound-effects/search/coin/) (Licencia Pixabay, uso libre sin atribución obligatoria) | SFX al recoger una moneda. |
+| `assets/audio/sonido-dano.mp3`, `sonido-explosion.mp3` | [PENDIENTE — indicar autoría/licencia]                      | SFX de daño al jugador y muerte de enemigo. |
 | `phaser.min.js` (CDN)                  | Phaser Studio — licencia MIT                                | Motor del juego. |
 
 > **Nota sobre licencias:**
@@ -407,7 +408,7 @@ Alternativas equivalentes: extensión *Live Server* de VS Code,
 
 ### En la Web
 
-[PENDIENTE — añadir URL de GitHub Pages cuando esté publicado]
+https://actividad3-juegosweb.github.io/
 
 ---
 
@@ -470,6 +471,14 @@ y nuevas mecánicas** al juego.
   > interpretar la obra, incluso con fines comerciales, sin pedir
   > permiso**. No se exige atribución, aunque se considera buena
   > práctica reconocer la autoría.
+
+### Recursos de audio
+
+- **Pixabay — Sound Effects "coin"**. Banco de SFX libres.
+  <https://pixabay.com/es/sound-effects/search/coin/>
+  Licencia: **Pixabay License** — permite uso comercial y privado, no exige
+  atribución (aunque se agradece). Más información:
+  <https://pixabay.com/service/license-summary/>
 
 ### Software y librerías
 

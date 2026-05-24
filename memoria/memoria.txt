@@ -2,9 +2,9 @@ MEMORIA DEL PROYECTO — Las aventuras de FoxRoll
 
 Asignatura: Videojuegos para la web
 Integrantes: Víctor González, Carlos Díez, Aike Fernández, Kevin Peciña
-URL del juego publicado: [PENDIENTE — añadir cuando se publique en GitHub Pages]
-Repositorio: [URL del repositorio]
-Vídeo de gameplay: [opcional — URL de YouTube/Drive]
+URL del juego publicado: https://actividad3-juegosweb.github.io/
+Repositorio: https://github.com/actividad3-juegosweb/actividad3-juegosweb.github.io
+Vídeo de gameplay: https://drive.google.com/file/d/1LRFTUfkhLbcJ7LTRhNzvV9A966yzl62M/view?usp=drive_link
 
 
 ==========================================================
@@ -187,9 +187,15 @@ actividad3-juegosweb.github.io/
       Origen: [PENDIENTE — indicar autoría y licencia]
       Uso:    música de fondo en loop.
 
-  assets/audio/sonido-dano.mp3, sonido-explosion.mp3, sonido-moneda.mp3
+  assets/audio/sonido-moneda.mp3
+      Origen: Pixabay — descargado de
+              https://pixabay.com/es/sound-effects/search/coin/
+              (Licencia Pixabay, uso libre sin atribución obligatoria)
+      Uso:    SFX al recoger una moneda.
+
+  assets/audio/sonido-dano.mp3, sonido-explosion.mp3
       Origen: [PENDIENTE — indicar autoría y licencia]
-      Uso:    efectos de sonido.
+      Uso:    SFX de daño al jugador y muerte de enemigo.
 
   phaser.min.js (CDN)
       Origen: Phaser Studio (licencia MIT)
@@ -428,7 +434,7 @@ Localmente:
   npx http-server, etc.
 
 En la Web:
-  [PENDIENTE — añadir URL de GitHub Pages cuando esté publicado]
+  https://actividad3-juegosweb.github.io/
 
 
 ==========================================================
@@ -502,6 +508,16 @@ Recursos gráficos
     obra, incluso con fines comerciales, sin pedir permiso. No se
     exige atribución, aunque se considera buena práctica reconocer
     la autoría.
+
+
+Recursos de audio
+-----------------
+
+  Pixabay — Sound Effects "coin". Banco de SFX libres.
+    URL: https://pixabay.com/es/sound-effects/search/coin/
+    Licencia: Pixabay License — permite uso comercial y privado,
+    no exige atribución (aunque se agradece).
+    Más información: https://pixabay.com/service/license-summary/
 
 
 Software y librerías
