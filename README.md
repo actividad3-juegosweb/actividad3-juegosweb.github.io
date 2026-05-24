@@ -25,7 +25,7 @@ moderno sin necesidad de instalación.
 ### Objetivos del juego
 
 - Recoger las llaves de colores repartidas por el mapa para desbloquear los
-  muros del mismo color.
+  muros del mismo color y llegar al final del nivel.
 - Esquivar o derrotar a los enemigos mediante el ataque de embestida (*roll*)
   o pisándolos desde arriba.
 - Recoger corazones para mantener la vida durante el recorrido.
