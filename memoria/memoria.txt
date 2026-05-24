@@ -184,7 +184,7 @@ actividad3-juegosweb.github.io/
       Uso:    monedas coleccionables.
 
   assets/audio/musica.mp3
-      Origen: unny Land — ansimuz (CC0 1.0)
+      Origen: Sunny Land — ansimuz (CC0 1.0 Universal)
       Uso:    música de fondo en loop.
 
   assets/audio/sonido-moneda.mp3
@@ -516,18 +516,18 @@ Recursos gráficos
 Recursos de audio
 -----------------
 
-  Pixabay — Sound Effects "coin". Banco de SFX libres.
-    URL: https://pixabay.com/es/sound-effects/search/coin/
-    Licencia: Pixabay License — permite uso comercial y privado,
-    no exige atribución (aunque se agradece).
-    Más información: https://pixabay.com/service/license-summary/
+  Sunny Land — ansimuz. La música de fondo (musica.mp3) se ha tomado
+    del propio pack gráfico Sunny Land (CC0 1.0 Universal).
+    URL: https://ansimuz.itch.io/sunny-land-pixel-game-art
 
-  Pixabay — Sound Effects "dano y explosion". Banco de SFX libres.
-    URL: https://pixabay.com/es/sound-effects/search/explosion%20retro/
-	 https://pixabay.com/es/sound-effects/search/hurt%20retro/
-    Licencia: Pixabay License — permite uso comercial y privado,
-    no exige atribución (aunque se agradece).
-    Más información: https://pixabay.com/service/license-summary/
+  Pixabay — Sound Effects. Banco de SFX libres usado para los efectos
+    de moneda, daño y explosión. Licencia: Pixabay License — permite
+    uso comercial y privado, no exige atribución (aunque se agradece).
+    Búsquedas concretas utilizadas:
+      - https://pixabay.com/es/sound-effects/search/coin/            (moneda)
+      - https://pixabay.com/es/sound-effects/search/hurt%20retro/    (daño)
+      - https://pixabay.com/es/sound-effects/search/explosion%20retro/ (muerte de enemigo)
+    Resumen oficial: https://pixabay.com/service/license-summary/
 
 
 

@@ -147,9 +147,10 @@ actividad3-juegosweb.github.io/
 | `assets/icons/heartFull.png`, `heartEmpty.png` | Material de la asignatura                                 | HUD de vida y coleccionable de corazón. |
 | `assets/icons/keyYellow/Green/Red/Blue.png`, `orangeKey.png` | Material de la asignatura                                 | Llaves coleccionables y HUD. |
 | `assets/icons/coinGold/Silver/Bronze.png` | Material de la asignatura                                | Monedas coleccionables. |
-| `assets/audio/musica.mp3`              | [PENDIENTE — indicar autoría/licencia]                      | Música de fondo en loop. |
-| `assets/audio/sonido-moneda.mp3`       | **Pixabay** — efecto descargado de [pixabay.com/es/sound-effects/search/coin/](https://pixabay.com/es/sound-effects/search/coin/) (Licencia Pixabay, uso libre sin atribución obligatoria) | SFX al recoger una moneda. |
-| `assets/audio/sonido-dano.mp3`, `sonido-explosion.mp3` | [PENDIENTE — indicar autoría/licencia]                      | SFX de daño al jugador y muerte de enemigo. |
+| `assets/audio/musica.mp3`              | **Sunny Land** — *ansimuz* (CC0 1.0 Universal)              | Música de fondo en loop. |
+| `assets/audio/sonido-moneda.mp3`       | **Pixabay** — [pixabay.com/es/sound-effects/search/coin/](https://pixabay.com/es/sound-effects/search/coin/) (Licencia Pixabay, uso libre sin atribución obligatoria) | SFX al recoger una moneda. |
+| `assets/audio/sonido-dano.mp3`         | **Pixabay** — [pixabay.com/es/sound-effects/search/hurt%20retro/](https://pixabay.com/es/sound-effects/search/hurt%20retro/) (Licencia Pixabay) | SFX cuando el jugador recibe daño. |
+| `assets/audio/sonido-explosion.mp3`    | **Pixabay** — [pixabay.com/es/sound-effects/search/explosion%20retro/](https://pixabay.com/es/sound-effects/search/explosion%20retro/) (Licencia Pixabay) | SFX cuando muere un enemigo. |
 | `phaser.min.js` (CDN)                  | Phaser Studio — licencia MIT                                | Motor del juego. |
 
 > **Nota sobre licencias:**
@@ -474,11 +475,19 @@ y nuevas mecánicas** al juego.
 
 ### Recursos de audio
 
-- **Pixabay — Sound Effects "coin"**. Banco de SFX libres.
-  <https://pixabay.com/es/sound-effects/search/coin/>
-  Licencia: **Pixabay License** — permite uso comercial y privado, no exige
-  atribución (aunque se agradece). Más información:
-  <https://pixabay.com/service/license-summary/>
+- **Sunny Land** — *ansimuz*. La música de fondo se ha tomado del propio
+  pack gráfico Sunny Land (CC0 1.0 Universal).
+  <https://ansimuz.itch.io/sunny-land-pixel-game-art>
+
+- **Pixabay — Sound Effects**. Banco de SFX libres usado para los efectos
+  de moneda, daño y explosión. Licencia: **Pixabay License** — permite uso
+  comercial y privado, no exige atribución (aunque se agradece).
+  Búsquedas concretas utilizadas:
+    - <https://pixabay.com/es/sound-effects/search/coin/> (moneda)
+    - <https://pixabay.com/es/sound-effects/search/hurt%20retro/> (daño)
+    - <https://pixabay.com/es/sound-effects/search/explosion%20retro/> (muerte de enemigo)
+
+  Resumen oficial de la licencia: <https://pixabay.com/service/license-summary/>
 
 ### Software y librerías
 
