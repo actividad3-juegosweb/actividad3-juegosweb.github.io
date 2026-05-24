@@ -184,7 +184,7 @@ actividad3-juegosweb.github.io/
       Uso:    monedas coleccionables.
 
   assets/audio/musica.mp3
-      Origen: [PENDIENTE — indicar autoría y licencia]
+      Origen: unny Land — ansimuz (CC0 1.0)
       Uso:    música de fondo en loop.
 
   assets/audio/sonido-moneda.mp3
@@ -194,7 +194,10 @@ actividad3-juegosweb.github.io/
       Uso:    SFX al recoger una moneda.
 
   assets/audio/sonido-dano.mp3, sonido-explosion.mp3
-      Origen: [PENDIENTE — indicar autoría y licencia]
+      Origen: Pixabay — descargado de
+		https://pixabay.com/es/sound-effects/search/explosion%20retro/
+		https://pixabay.com/es/sound-effects/search/hurt%20retro/
+		(Licencia Pixabay, uso libre sin atribución obligatoria)
       Uso:    SFX de daño al jugador y muerte de enemigo.
 
   phaser.min.js (CDN)
