@@ -452,12 +452,25 @@ En la Web:
 8. CONCLUSIONES
 ==========================================================
 
-[En 1-2 párrafos, el grupo puede comentar las dificultades encontradas,
-qué se ha aprendido del trabajo con Phaser, decisiones de diseño
-relevantes (por ejemplo, el ataque como roll en lugar de proyectil, el
-sistema de eventos para desacoplar Player de la escena, la elección de
-Sunny Land como pack gráfico) y posibles mejoras futuras (más niveles,
-enemigos con IA, sonido, menú principal...).]
+El desarrollo de "Las aventuras de FoxRoll" nos ha permitido aplicar de
+forma práctica los conceptos vistos en la asignatura y enfrentarnos a las
+dificultades habituales de un proyecto colaborativo de videojuego. La
+parte más costosa fue el planteamiento del nivel: equilibrar la
+disposición de plataformas, enemigos, llaves y muros desbloqueables para
+que el recorrido fuese a la vez retador y resoluble nos obligó a iterar
+el mapa varias veces en Tiled. A nivel de programación, el reto técnico
+más importante fue la resolución de bugs en el movimiento de las ranas,
+donde la lógica de salto sincronizado quedaba en estado inconsistente al
+chocar con plataformas o muros y obligaba al personaje a comportarse de
+forma errática; resolverlo nos hizo entender mejor el ciclo de física
+Arcade de Phaser y la importancia de validar body.onFloor() y las
+velocidades antes de aplicar nuevos impulsos.
+
+Más allá del aspecto técnico, la actividad ha supuesto una mejora notable
+en nuestro trabajo en equipo y en el uso de herramientas colaborativas
+como Git y GitHub, algo que será directamente aplicable a futuros
+proyectos. Como mejoras futuras nos planteamos añadir nuevos niveles y
+nuevas mecánicas al juego.
 
 
 ==========================================================

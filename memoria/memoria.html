@@ -335,11 +335,26 @@ python3 -m http.server 8000</pre>
 
 <h2>8. Conclusiones</h2>
 <p>
-    [En 1-2 párrafos, el grupo puede comentar las dificultades encontradas, qué se ha
-    aprendido del trabajo con Phaser, decisiones de diseño relevantes (ataque como
-    <em>roll</em>, sistema de eventos para desacoplar <code>Player</code> de la escena,
-    elección de Sunny Land como pack gráfico) y posibles mejoras futuras (más niveles,
-    enemigos con IA, sonido, menú principal, etc.).]
+    El desarrollo de <strong>Las aventuras de FoxRoll</strong> nos ha permitido aplicar
+    de forma práctica los conceptos vistos en la asignatura y enfrentarnos a las
+    dificultades habituales de un proyecto colaborativo de videojuego. La parte más
+    costosa fue el <strong>planteamiento del nivel</strong>: equilibrar la disposición
+    de plataformas, enemigos, llaves y muros desbloqueables para que el recorrido
+    fuese a la vez retador y resoluble nos obligó a iterar el mapa varias veces en
+    Tiled. A nivel de programación, el reto técnico más importante fue la
+    <strong>resolución de bugs en el movimiento de las ranas</strong>, donde la lógica
+    de salto sincronizado quedaba en estado inconsistente al chocar con plataformas o
+    muros y obligaba al personaje a comportarse de forma errática; resolverlo nos hizo
+    entender mejor el ciclo de física <em>Arcade</em> de Phaser y la importancia de
+    validar <code>body.onFloor()</code> y las velocidades antes de aplicar nuevos
+    impulsos.
+</p>
+<p>
+    Más allá del aspecto técnico, la actividad ha supuesto una mejora notable en
+    nuestro <strong>trabajo en equipo y en el uso de herramientas colaborativas como
+    Git y GitHub</strong>, algo que será directamente aplicable a futuros proyectos.
+    Como <strong>mejoras futuras</strong> nos planteamos <strong>añadir nuevos niveles
+    y nuevas mecánicas</strong> al juego.
 </p>
 
 <h2>9. Webgrafía y referencias</h2>
