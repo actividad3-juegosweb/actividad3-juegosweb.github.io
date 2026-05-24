@@ -1,9 +1,7 @@
-# Memoria del proyecto — [NOMBRE DEL JUEGO]
+# Memoria del proyecto — Las aventuras de FoxRoll
 
-**Asignatura:** [NOMBRE ASIGNATURA]
-**Curso / Grupo:** [CURSO]
-**Integrantes del grupo:** [NOMBRE 1], [NOMBRE 2], [NOMBRE 3], [NOMBRE 4]
-**Fecha de entrega:** [DD/MM/AAAA]
+**Asignatura:** Videojuegos para la web
+**Integrantes del grupo:** Víctor González, Carlos Díez, Aike Fernández, Kevin Peciña
 **URL del juego publicado:** [PENDIENTE — añadir cuando se publique en GitHub Pages]
 **Repositorio:** [URL del repositorio]
 **Vídeo de gameplay:** [opcional — URL de YouTube/Drive]
@@ -12,12 +10,13 @@
 
 ## 1. Introducción
 
-[NOMBRE DEL JUEGO] es un videojuego de plataformas 2D desarrollado con la librería
-**Phaser 3** (versión 3.90.0) como parte de la actividad grupal de la asignatura
-[NOMBRE ASIGNATURA]. El jugador controla a **Foxy**, un pequeño zorro que debe
-recorrer un nivel basado en *tilemap*, recoger gemas de distintos colores para
-desbloquear los muros del mismo color, evitar enemigos y llegar a la bandera
-final para superar la fase.
+**Las aventuras de FoxRoll** es un videojuego de plataformas 2D desarrollado con
+la librería **Phaser 3** (versión 3.90.0) como parte de la actividad grupal de
+la asignatura **Videojuegos para la web**. El jugador controla a **Foxy**, un pequeño
+zorro que debe recorrer un nivel basado en *tilemap*, recoger las llaves de
+colores repartidas por el mapa para desbloquear los muros del mismo color,
+derrotar o esquivar a los enemigos (zarigüeyas, ranas y águilas) y recoger
+corazones para mantener la vida.
 
 El proyecto se ha construido íntegramente con tecnologías web (HTML5, JavaScript
 modular ES6 y CSS), lo que permite su ejecución directa en cualquier navegador
@@ -25,10 +24,11 @@ moderno sin necesidad de instalación.
 
 ### Objetivos del juego
 
-- Recoger todas las gemas de cada color para hacer desaparecer el muro
-  correspondiente.
-- Esquivar o derrotar a los enemigos mediante el ataque de embestida (*roll*).
-- Conservar al menos un punto de vida hasta alcanzar la bandera final.
+- Recoger las llaves de colores repartidas por el mapa para desbloquear los
+  muros del mismo color.
+- Esquivar o derrotar a los enemigos mediante el ataque de embestida (*roll*)
+  o pisándolos desde arriba.
+- Recoger corazones para mantener la vida durante el recorrido.
 
 ---
 
@@ -38,7 +38,7 @@ moderno sin necesidad de instalación.
 |------------------|-------------------------|
 | Moverse          | `A` / `D` o `←` / `→`   |
 | Saltar           | `W`, `Espacio` o `↑`    |
-| Atacar (roll)    | `S`                     |
+| Atacar (roll)    | `S` o `↓`               |
 | (Debug) Daño     | `H`                     |
 
 **Mecánicas principales:**
@@ -69,6 +69,10 @@ moderno sin necesidad de instalación.
    Si el contacto no cumple ninguna de las dos condiciones, el jugador
    recibe 1 punto de daño y suena el SFX de daño.
 8. **Audio**: música de fondo en bucle y SFX de ataque/daño.
+9. **Final del nivel**: el nivel se completa cuando el jugador llega a la
+   **torre final** y entra en ella (pulsando la tecla de salto frente a la
+   puerta). En ese momento se dispara el evento `finaliza-nivel` y se muestra
+   la pantalla de victoria.
 
 ---
 
@@ -341,24 +345,41 @@ La escena carga tres ficheros de audio en `preload()` y los usa así:
 
 ## 5. Capturas de pantalla
 
-> _Pendiente de añadir capturas reales del juego en ejecución._
->
-> Capturas recomendadas:
-> 1. Pantalla inicial / primer tramo del nivel con Foxy y los corazones del HUD.
-> 2. HUD con al menos una llave recogida (muro desbloqueado).
-> 3. Foxy ejecutando el *roll* contra un enemigo.
-> 4. Foxy recibiendo daño (parpadeo + knockback).
-> 5. Foxy recogiendo un corazón (HUD se rellena).
-> 6. Pantalla de *GAME OVER*.
+**1. Inicio del nivel.** Vista general del primer tramo: HUD con 3
+corazones, las águilas patrullando y la casa de madera al fondo.
 
-| # | Captura | Descripción |
-|---|---------|-------------|
-| 1 | _(añadir)_ | Inicio del nivel |
-| 2 | _(añadir)_ | HUD con llaves recogidas |
-| 3 | _(añadir)_ | Foxy ejecutando el roll sobre un enemigo |
-| 4 | _(añadir)_ | Foxy recibiendo daño |
-| 5 | _(añadir)_ | Foxy recogiendo un corazón |
-| 6 | _(añadir)_ | Pantalla de Game Over |
+<img src="capturas/01-inicio.jpg" alt="Inicio del nivel" width="720">
+
+**2. HUD con las 5 llaves recogidas.** Marcador de puntuación y los
+cinco iconos de llave (amarilla, verde, roja, azul, naranja) en la
+parte derecha de la pantalla.
+
+<img src="capturas/02-hud-llaves.jpg" alt="HUD con llaves" width="240">
+
+**3. Foxy ejecutando el ataque *roll*.** Animación de embestida frente
+a la cabaña, lista para impactar a los enemigos cercanos.
+
+<img src="capturas/03-ataque-roll.jpg" alt="Ataque roll" width="480">
+
+**4. Foxy recibiendo daño.** Con vida en 2 corazones, atacado por dos
+águilas mientras saltan monedas por el aire.
+
+<img src="capturas/04-recibe-dano.jpg" alt="Recibiendo daño" width="720">
+
+**5. Corazones recolectables en el mapa.** Un corazón y una llave verde
+en una sala interior; al tocar el corazón se recupera 1 punto de vida
+(hasta el máximo de 3).
+
+<img src="capturas/05-corazon-recolectable.jpg" alt="Corazón recolectable" width="720">
+
+**6. Pantalla de Game Over.** Se dispara al llegar a 0 corazones.
+
+<img src="capturas/06-game-over.jpg" alt="Game Over" width="720">
+
+**7. Nivel ganado.** Al entrar en la torre final aparece el mensaje
+*HAS GANADO* y termina la partida.
+
+<img src="capturas/07-nivel-ganado.jpg" alt="Nivel ganado" width="720">
 
 ---
 
@@ -392,12 +413,12 @@ Alternativas equivalentes: extensión *Live Server* de VS Code,
 
 ## 7. Reparto de tareas
 
-| Integrante     | Responsabilidad principal                                       |
-|----------------|-----------------------------------------------------------------|
-| [NOMBRE 1]     | Personaje principal: clase `Player`, movimiento, salto, ataque y daño. |
-| [NOMBRE 2]     | [—]                                                             |
-| [NOMBRE 3]     | [—]                                                             |
-| [NOMBRE 4]     | [—]                                                             |
+| Integrante         | Responsabilidad principal                                                                       |
+|--------------------|-------------------------------------------------------------------------------------------------|
+| Carlos Díez        | Tilesets del mapa y efectos de sonido (SFX).                                                    |
+| Aike Fernández     | Objetos coleccionables (llaves, corazones, monedas) e interfaz (puntuación, vida, menú).        |
+| Víctor González    | Personaje principal: clase `Player` (movimiento horizontal, salto, ataque, recibir daño), redacción de la memoria y *teaser*. |
+| Kevin Peciña       | Enemigos (`Opossum`, `Frog`, `Eagle`) con IA, ataque y sistema de recibir daño.                 |
 
 ---
 

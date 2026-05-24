@@ -92,7 +92,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
             }
         }
 
-        if (Phaser.Input.Keyboard.JustDown(this.teclas.ataque) && this.puedeAtacar) {
+        if ((Phaser.Input.Keyboard.JustDown(this.teclas.ataque) || Phaser.Input.Keyboard.JustDown(this.cursors.down)) && this.puedeAtacar)
+     {
             this.atacar();
         }
 

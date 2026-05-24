@@ -1,9 +1,7 @@
-MEMORIA DEL PROYECTO — [NOMBRE DEL JUEGO]
+MEMORIA DEL PROYECTO — Las aventuras de FoxRoll
 
-Asignatura: [NOMBRE ASIGNATURA]
-Curso / Grupo: [CURSO]
-Integrantes: [NOMBRE 1], [NOMBRE 2], [NOMBRE 3], [NOMBRE 4]
-Fecha de entrega: [DD/MM/AAAA]
+Asignatura: Videojuegos para la web
+Integrantes: Víctor González, Carlos Díez, Aike Fernández, Kevin Peciña
 URL del juego publicado: [PENDIENTE — añadir cuando se publique en GitHub Pages]
 Repositorio: [URL del repositorio]
 Vídeo de gameplay: [opcional — URL de YouTube/Drive]
@@ -13,22 +11,24 @@ Vídeo de gameplay: [opcional — URL de YouTube/Drive]
 1. INTRODUCCIÓN
 ==========================================================
 
-[NOMBRE DEL JUEGO] es un videojuego de plataformas 2D desarrollado con la
-librería Phaser 3 (versión 3.90.0) como parte de la actividad grupal de la
-asignatura [NOMBRE ASIGNATURA]. El jugador controla a Foxy, un pequeño zorro
-que debe recorrer un nivel basado en tilemap, recoger gemas de distintos
-colores para desbloquear los muros del mismo color, evitar enemigos y llegar
-a la bandera final para superar la fase.
+Las aventuras de FoxRoll es un videojuego de plataformas 2D desarrollado con
+la librería Phaser 3 (versión 3.90.0) como parte de la actividad grupal de
+la asignatura Videojuegos para la web. El jugador controla a Foxy, un pequeño
+zorro que debe recorrer un nivel basado en tilemap, recoger las llaves de
+colores repartidas por el mapa para desbloquear los muros del mismo color,
+derrotar o esquivar a los enemigos (zarigüeyas, ranas y águilas) y recoger
+corazones para mantener la vida.
 
 El proyecto se ha construido íntegramente con tecnologías web (HTML5,
 JavaScript modular ES6 y CSS), lo que permite su ejecución directa en
 cualquier navegador moderno sin necesidad de instalación.
 
 Objetivos del juego:
-  - Recoger todas las gemas de cada color para hacer desaparecer el muro
-    correspondiente.
-  - Esquivar o derrotar a los enemigos mediante el ataque de embestida (roll).
-  - Conservar al menos un punto de vida hasta alcanzar la bandera final.
+  - Recoger las llaves de colores repartidas por el mapa para desbloquear
+    los muros del mismo color.
+  - Esquivar o derrotar a los enemigos mediante el ataque de embestida
+    (roll) o pisándolos desde arriba.
+  - Recoger corazones para mantener la vida durante el recorrido.
 
 
 ==========================================================
@@ -38,7 +38,7 @@ Objetivos del juego:
 Controles:
   Moverse ............ A / D  o  ← / →
   Saltar ............. W, Espacio  o  ↑
-  Atacar (roll) ...... S
+  Atacar (roll) ...... S  o  ↓
   (Debug) Daño ....... H
 
 Mecánicas principales:
@@ -62,6 +62,10 @@ Mecánicas principales:
      - Atacando con roll mientras los tocas.
      Cualquier otro contacto inflige 1 punto de daño al jugador.
   8. Audio: música de fondo en bucle y SFX de daño y muerte de enemigo.
+  9. Final del nivel: el nivel se completa cuando el jugador llega a la
+     torre final y entra en ella (pulsando la tecla de salto frente a la
+     puerta). En ese momento se dispara el evento "finaliza-nivel" y se
+     muestra la pantalla de victoria.
 
 
 ==========================================================
@@ -377,16 +381,33 @@ La escena carga tres ficheros en preload() y los usa así:
 5. CAPTURAS DE PANTALLA
 ==========================================================
 
-Pendiente de añadir capturas reales del juego en ejecución.
+Las capturas se encuentran en la carpeta memoria/capturas/.
 
-Capturas recomendadas:
-  1. Pantalla inicial / primer tramo del nivel con Foxy y los corazones
-     del HUD.
-  2. HUD con al menos una llave recogida (muro desbloqueado).
-  3. Foxy ejecutando el roll contra un enemigo.
-  4. Foxy recibiendo daño (parpadeo + knockback).
-  5. Foxy recogiendo un corazón (HUD se rellena).
-  6. Pantalla de GAME OVER.
+  1. capturas/01-inicio.jpg
+     Inicio del nivel. Vista general del primer tramo: HUD con 3
+     corazones, las águilas patrullando y la casa de madera al fondo.
+
+  2. capturas/02-hud-llaves.jpg
+     HUD con las 5 llaves recogidas: marcador de puntuación y los cinco
+     iconos de llave (amarilla, verde, roja, azul, naranja).
+
+  3. capturas/03-ataque-roll.jpg
+     Foxy ejecutando el ataque roll frente a la cabaña.
+
+  4. capturas/04-recibe-dano.jpg
+     Foxy recibiendo daño: vida en 2 corazones, atacado por dos águilas
+     mientras saltan monedas por el aire.
+
+  5. capturas/05-corazon-recolectable.jpg
+     Corazón recolectable junto a una llave verde en una sala interior.
+     Al tocarlo se recupera 1 punto de vida (máx. 3).
+
+  6. capturas/06-game-over.jpg
+     Pantalla de GAME OVER, disparada al llegar a 0 corazones.
+
+  7. capturas/07-nivel-ganado.jpg
+     Pantalla de HAS GANADO: el jugador ha entrado en la torre final
+     y completado el nivel.
 
 
 ==========================================================
@@ -414,11 +435,17 @@ En la Web:
 7. REPARTO DE TAREAS
 ==========================================================
 
-  [NOMBRE 1]  Personaje principal: clase Player, movimiento, salto,
-              ataque y daño.
-  [NOMBRE 2]  —
-  [NOMBRE 3]  —
-  [NOMBRE 4]  —
+  Carlos Díez      Tilesets del mapa y efectos de sonido (SFX).
+
+  Aike Fernández   Objetos coleccionables (llaves, corazones, monedas)
+                   e interfaz (puntuación, vida, menú).
+
+  Víctor González  Personaje principal: clase Player (movimiento
+                   horizontal, salto, ataque, recibir daño), redacción
+                   de la memoria y teaser.
+
+  Kevin Peciña     Enemigos (Opossum, Frog, Eagle) con IA, ataque y
+                   sistema de recibir daño.
 
 
 ==========================================================

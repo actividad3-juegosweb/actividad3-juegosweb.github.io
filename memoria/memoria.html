@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8" />
-<title>Memoria del proyecto — [NOMBRE DEL JUEGO]</title>
+<title>Memoria del proyecto — Las aventuras de FoxRoll</title>
 <style>
     @page { size: A4; margin: 2cm; }
     body {
@@ -30,13 +30,11 @@
 </head>
 <body>
 
-<h1>Memoria del proyecto — [NOMBRE DEL JUEGO]</h1>
+<h1>Memoria del proyecto — Las aventuras de FoxRoll</h1>
 
 <div class="meta">
-    <p><strong>Asignatura:</strong> [NOMBRE ASIGNATURA]</p>
-    <p><strong>Curso / Grupo:</strong> [CURSO]</p>
-    <p><strong>Integrantes:</strong> [NOMBRE 1], [NOMBRE 2], [NOMBRE 3], [NOMBRE 4]</p>
-    <p><strong>Fecha de entrega:</strong> [DD/MM/AAAA]</p>
+    <p><strong>Asignatura:</strong> Videojuegos para la web</p>
+    <p><strong>Integrantes:</strong> Víctor González, Carlos Díez, Aike Fernández, Kevin Peciña</p>
     <p><strong>URL del juego publicado:</strong> [PENDIENTE — GitHub Pages]</p>
     <p><strong>Repositorio:</strong> [URL del repositorio]</p>
     <p><strong>Vídeo de gameplay:</strong> [opcional]</p>
@@ -44,12 +42,12 @@
 
 <h2>1. Introducción</h2>
 <p>
-    <strong>[NOMBRE DEL JUEGO]</strong> es un videojuego de plataformas 2D desarrollado con la librería
+    <strong>Las aventuras de FoxRoll</strong> es un videojuego de plataformas 2D desarrollado con la librería
     <strong>Phaser 3</strong> (v3.90.0) como parte de la actividad grupal de la asignatura
-    [NOMBRE ASIGNATURA]. El jugador controla a <em>Foxy</em>, un pequeño zorro que debe
-    recorrer un nivel basado en <em>tilemap</em>, recoger gemas de distintos colores para
-    desbloquear los muros del mismo color, evitar enemigos y llegar a la bandera final
-    para superar la fase.
+    <strong>Videojuegos para la web</strong>. El jugador controla a <em>Foxy</em>, un pequeño zorro que debe
+    recorrer un nivel basado en <em>tilemap</em>, recoger las llaves de colores repartidas
+    por el mapa para desbloquear los muros del mismo color, derrotar o esquivar a los
+    enemigos (zarigüeyas, ranas y águilas) y recoger corazones para mantener la vida.
 </p>
 <p>
     El proyecto se ha construido íntegramente con tecnologías web (HTML5, JavaScript
@@ -71,7 +69,7 @@
     <tbody>
         <tr><td>Moverse</td><td><code>A</code> / <code>D</code> o <code>←</code> / <code>→</code></td></tr>
         <tr><td>Saltar</td><td><code>W</code>, <code>Espacio</code> o <code>↑</code></td></tr>
-        <tr><td>Atacar (roll)</td><td><code>S</code></td></tr>
+        <tr><td>Atacar (roll)</td><td><code>S</code> o <code>↓</code></td></tr>
         <tr><td>(Debug) Simular daño</td><td><code>H</code></td></tr>
     </tbody>
 </table>
@@ -86,6 +84,7 @@
     <li><strong>Llaves y muros desbloqueables</strong>: 5 llaves de colores (amarilla, verde, roja, azul, naranja) destruyen el muro del mismo color al recogerlas, y aparece el icono en el HUD.</li>
     <li><strong>Combate contra enemigos</strong>: pueden derrotarse <em>pisándolos desde arriba</em> (con rebote vertical) o <em>atacándolos con roll</em>. Cualquier otro contacto inflige daño al jugador.</li>
     <li><strong>Audio</strong>: música de fondo en bucle y SFX de daño y muerte de enemigo.</li>
+    <li><strong>Final del nivel</strong>: el nivel se completa cuando el jugador llega a la <strong>torre final</strong> y entra en ella (pulsando la tecla de salto frente a la puerta). En ese momento se dispara el evento <code>finaliza-nivel</code> y se muestra la pantalla de victoria.</li>
 </ol>
 
 <h2>3. Elementos que componen el juego</h2>
@@ -268,18 +267,47 @@ new Phaser.Game(config);</pre>
 </ul>
 
 <h2>5. Capturas de pantalla</h2>
-<blockquote>Pendiente de añadir capturas reales del juego en ejecución.</blockquote>
-<table>
-    <thead><tr><th>#</th><th>Captura</th><th>Descripción</th></tr></thead>
-    <tbody>
-        <tr><td>1</td><td><em>(añadir)</em></td><td>Inicio del nivel</td></tr>
-        <tr><td>2</td><td><em>(añadir)</em></td><td>HUD con llaves recogidas</td></tr>
-        <tr><td>3</td><td><em>(añadir)</em></td><td>Foxy ejecutando el roll sobre un enemigo</td></tr>
-        <tr><td>4</td><td><em>(añadir)</em></td><td>Foxy recibiendo daño</td></tr>
-        <tr><td>5</td><td><em>(añadir)</em></td><td>Foxy recogiendo un corazón</td></tr>
-        <tr><td>6</td><td><em>(añadir)</em></td><td>Pantalla de Game Over</td></tr>
-    </tbody>
-</table>
+
+<style>
+    .cap { margin: 1.4rem 0 2rem; }
+    .cap img { max-width: 100%; border: 1px solid #bbb; border-radius: 4px; display: block; }
+    .cap figcaption { font-style: italic; color: #555; margin-top: .4rem; font-size: .95rem; }
+</style>
+
+<figure class="cap">
+    <img src="capturas/01-inicio.jpg" alt="Inicio del nivel" style="max-width:720px;">
+    <figcaption><strong>1.</strong> Inicio del nivel. Vista general del primer tramo: HUD con 3 corazones, las águilas patrullando y la casa de madera al fondo.</figcaption>
+</figure>
+
+<figure class="cap">
+    <img src="capturas/02-hud-llaves.jpg" alt="HUD con llaves" style="max-width:260px;">
+    <figcaption><strong>2.</strong> HUD con las 5 llaves recogidas: marcador de puntuación y los cinco iconos de llave (amarilla, verde, roja, azul, naranja).</figcaption>
+</figure>
+
+<figure class="cap">
+    <img src="capturas/03-ataque-roll.jpg" alt="Ataque roll" style="max-width:520px;">
+    <figcaption><strong>3.</strong> Foxy ejecutando el ataque <em>roll</em> frente a la cabaña.</figcaption>
+</figure>
+
+<figure class="cap">
+    <img src="capturas/04-recibe-dano.jpg" alt="Recibiendo daño" style="max-width:720px;">
+    <figcaption><strong>4.</strong> Foxy recibiendo daño: vida en 2 corazones, atacado por dos águilas mientras saltan monedas por el aire.</figcaption>
+</figure>
+
+<figure class="cap">
+    <img src="capturas/05-corazon-recolectable.jpg" alt="Corazón recolectable" style="max-width:720px;">
+    <figcaption><strong>5.</strong> Corazón recolectable junto a una llave verde en una sala interior. Al tocar el corazón se recupera 1 punto de vida (hasta el máximo de 3).</figcaption>
+</figure>
+
+<figure class="cap">
+    <img src="capturas/06-game-over.jpg" alt="Game Over" style="max-width:720px;">
+    <figcaption><strong>6.</strong> Pantalla de <strong>Game Over</strong>, disparada al llegar a 0 corazones.</figcaption>
+</figure>
+
+<figure class="cap">
+    <img src="capturas/07-nivel-ganado.jpg" alt="Nivel ganado" style="max-width:720px;">
+    <figcaption><strong>7.</strong> Pantalla de <strong>HAS GANADO</strong>: el jugador ha entrado en la torre final y completado el nivel.</figcaption>
+</figure>
 
 <h2>6. Ejecución del juego</h2>
 <h3>Localmente</h3>
@@ -298,10 +326,10 @@ python3 -m http.server 8000</pre>
 <table>
     <thead><tr><th>Integrante</th><th>Responsabilidad principal</th></tr></thead>
     <tbody>
-        <tr><td>[NOMBRE 1]</td><td>Personaje principal: clase <code>Player</code>, movimiento, salto, ataque y daño.</td></tr>
-        <tr><td>[NOMBRE 2]</td><td>—</td></tr>
-        <tr><td>[NOMBRE 3]</td><td>—</td></tr>
-        <tr><td>[NOMBRE 4]</td><td>—</td></tr>
+        <tr><td>Carlos Díez</td><td>Tilesets del mapa y efectos de sonido (SFX).</td></tr>
+        <tr><td>Aike Fernández</td><td>Objetos coleccionables (llaves, corazones, monedas) e interfaz (puntuación, vida, menú).</td></tr>
+        <tr><td>Víctor González</td><td>Personaje principal: clase <code>Player</code> (movimiento horizontal, salto, ataque, recibir daño), redacción de la memoria y <em>teaser</em>.</td></tr>
+        <tr><td>Kevin Peciña</td><td>Enemigos (<code>Opossum</code>, <code>Frog</code>, <code>Eagle</code>) con IA, ataque y sistema de recibir daño.</td></tr>
     </tbody>
 </table>
 
